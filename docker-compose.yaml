@@ -1,26 +1,19 @@
 #TODO: Decidir se vai utilizar o GRPC ou se vai ser dividido com o mountpath ou ainda com o multirouter express example
 version: '3.9'
 services:
-  api-gateway:    
-    container_name: api-gateway
+  simple-system:    
+    container_name: simple-system
     image: node:lts-buster
     ports:
       - "3000:${API_GATEWAY_PORT}"
     env_file:
       - .env
-    working_dir: /home/node/api-gateway
+    working_dir: /home/node/simple-system
     volumes:
-      - ./api-gateway:/home/node/api-gateway
-    command: sh -c "npm install && npm run start"
-  
-  authentication:
-    container_name: authentication
-    image: node:lts-buster
-    ports:
-      - "3000:${AUTHENTICATION_PORT}"
-    env_file:
-      - .env
-    working_dir: /home/node/authentication
-    volumes:
-      - ./authentication:/home/node/authentication
-    command: sh -c "npm install && npm run start"
+      - ./:/home/node/simple-system
+    command: sh -c "cd authentication &&
+      npm install &&
+      cd ../ &&
+      cd api-gateway &&
+      npm install &&
+      npm run start"
