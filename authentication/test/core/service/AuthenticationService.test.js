@@ -7,7 +7,6 @@ import AuthenticationService from "../../../src/core/service/AuthenticationServi
 import AuthenticationRepository from "../../../src/core/repository/AuthenticationRepository.js";
 import LoggedAccountsRepository from "../../../src/core/repository/LoggedAccountsRepository.js";
 import JwtTokenService from "../../../src/core/service/JwtTokenService.js";
-import PasswordUtil from "../../../src/core/util/PasswordUtil.js";
 import Exception from "../../../src/core/exception/Exception.js";
 
 describe("AuthenticationService.js", () => {
@@ -31,6 +30,7 @@ describe("AuthenticationService.js", () => {
             loggedAccountsRepositoryMock = sinon.mock(loggedAccountsRepository);
             jwtTokenServiceMock = sinon.mock(jwtTokenService);
 
+            const PasswordUtil = {};
             PasswordUtil.encryptPassword = sinon.stub().withArgs(password).returns(password);
 
             authenticationService = new AuthenticationService(authenticationRepository, loggedAccountsRepository, jwtTokenService, PasswordUtil)
