@@ -2,11 +2,9 @@
   "name": "api-gateway",
   "version": "0.0.1",
   "description": "Api gateway",
-  "main": "./src/index.js",
+  "main": "./index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "DEBUG=express:* node ./src/index.js",
     "test": "mocha ./test --recursive"
   },
   "repository": {
@@ -24,10 +22,15 @@
   },
   "homepage": "https://github.com/alvarengacarlos/simple-system#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "~4.18.1",
+    "jose": "^4.9.0"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
-    "mocha": "^10.0.0"
+    "@faker-js/faker": "^7.4.0",
+    "chai": "~4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "~8.22.0",
+    "mocha": "~10.0.0",
+    "sinon": "^14.0.0"
   }
 }
