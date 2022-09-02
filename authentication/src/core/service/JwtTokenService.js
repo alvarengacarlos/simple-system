@@ -31,7 +31,7 @@ export default class JwtTokenService {
             await jose.jwtVerify(jwtToken, publickey);
         
         } catch (error) {            
-            throw new Exception(500, 3, "invalid token");
+            throw new Exception("invalid token", 3, 500);
         }
         
     }
