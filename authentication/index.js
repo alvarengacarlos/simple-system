@@ -1,4 +1,4 @@
-import main from "./src/app.js";
+import main from "./src/webserver/app.js";
 
 const authenticationSubApp = main();
 
