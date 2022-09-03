@@ -7,7 +7,7 @@ import AuthenticationService from "../../../src/core/service/AuthenticationServi
 import AuthenticationRepository from "../../../src/core/repository/AuthenticationRepository.js";
 import LoggedAccountsRepository from "../../../src/core/repository/LoggedAccountsRepository.js";
 import JwtTokenService from "../../../src/core/service/JwtTokenService.js";
-import Exception from "../../../src/core/exception/Exception.js";
+import Exception from "../../../../util/src/exception/Exception.js";
 
 describe("AuthenticationService.js", () => {
 

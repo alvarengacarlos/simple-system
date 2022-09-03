@@ -1,8 +1,8 @@
 import JwtTokenService from "./JwtTokenService.js";
 import AuthenticationRepository from "../repository/AuthenticationRepository.js";
-import PasswordUtil from "../util/PasswordUtil.js";
+import PasswordUtil from "../../../../util/src/crypto/PasswordUtil.js";
 import LoggedAccountsRepository from "../repository/LoggedAccountsRepository.js";
-import Exception from "../exception/Exception.js";
+import Exception from "../../../../util/src/exception/Exception.js";
 
 export default class AuthenticationService {
 

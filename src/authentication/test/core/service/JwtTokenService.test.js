@@ -7,7 +7,7 @@ import { faker } from "@faker-js/faker";
 chai.use(chaiAsPromised);
 
 import JwtTokenService from "../../../src/core/service/JwtTokenService.js";
-import Exception from "../../../src/core/exception/Exception.js";
+import Exception from "../../../../util/src/exception/Exception.js";
 
 describe("JwtTokenService.js", () => {
 

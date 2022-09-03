@@ -1,7 +1,7 @@
 import * as jose from "jose";
 import process from "process";
 
-import Exception from "../exception/Exception.js";
+import Exception from "../../../../util/src/exception/Exception.js";
 
 export default class JwtTokenService {
 
