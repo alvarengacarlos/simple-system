@@ -31,7 +31,7 @@ describe("AuthenticationService.js", () => {
             jwtTokenServiceMock = sinon.mock(jwtTokenService);
 
             const PasswordUtil = {};
-            PasswordUtil.encryptPassword = sinon.stub().withArgs(password).returns(password);
+            PasswordUtil.encryptPassword = (password) => password;
 
             authenticationService = new AuthenticationService(authenticationRepository, loggedAccountsRepository, jwtTokenService, PasswordUtil)
         });
