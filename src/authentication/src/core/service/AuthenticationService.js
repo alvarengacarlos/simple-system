@@ -24,7 +24,7 @@ export default class AuthenticationService {
         const account = this._authenticationRepository.searchAccountByEmailAndPassword(email, encryptedPassword);
 
         if (!account) {
-            throw new Exception("email or password are incorrect", 1, 400);
+            throw new Exception("email or password are incorrect", 1, 500);
         }
 
         const token = this._jwtTokenProvider.generateJwtToken();
