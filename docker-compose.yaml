@@ -11,9 +11,4 @@ services:
     working_dir: /home/node/simple-system
     volumes:
       - ./:/home/node/simple-system
-    command: sh -c "cd authentication &&
-      npm install &&
-      cd ../ &&
-      cd api-gateway &&
-      npm install &&
-      npm run start"
+    command: sh -c "npm install && npm run start"
