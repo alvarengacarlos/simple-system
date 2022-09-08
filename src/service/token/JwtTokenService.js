@@ -25,15 +25,14 @@ export default class JwtTokenService {
         return jwtToken;
     }
 
-    async verifyJwtToken(jwtToken) {
+    async checkJwtToken(jwtToken) {
         try {
             const publickey = await jose.importX509(this._publicKey);
             await jose.jwtVerify(jwtToken, publickey);
         
         } catch (error) {            
-            throw new Exception("invalid token", 3, 500);
-        }
-        
+            throw new Exception("the token is invalid", 3, 401);
+        }        
     }
 
 }
