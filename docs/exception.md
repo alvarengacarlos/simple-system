@@ -7,3 +7,4 @@
 4 - the account is not logged - 403
 5 - the password is incorrect - 400
 6 - you already logged - 409
+7 - the email does not belong to an account - 400
