@@ -8,3 +8,6 @@
 5 - the password is incorrect - 400
 6 - you already logged - 409
 7 - the email does not belong to an account - 400
+8 - the email already in the registration process - 409
+9 - the email is not in the registration process - 400
+10 - the email is not in the reset password process - 400
