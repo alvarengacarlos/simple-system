@@ -1,3 +1,7 @@
+/**
+ * This class must not instanciate. It must be extend.
+ */
+
 export default class Entity {
 
     _id = null;
