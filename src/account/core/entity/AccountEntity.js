@@ -1,4 +1,4 @@
-import Entity from "../../helper/Entity.js";
+import Entity from "../../../helper/Entity.js";
 
 export default class AccountEntity extends Entity {
     
