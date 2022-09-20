@@ -11,3 +11,4 @@
 8 - the email already in the registration process - 409
 9 - the email is not in the registration process - 400
 10 - the email is not in the reset password process - 400
+11 - sorry, internal error - 500
