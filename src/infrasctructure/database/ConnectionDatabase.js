@@ -30,5 +30,3 @@ export default class ConnectionDatabase {
     }
 
 }
-
-ConnectionDatabase.getConnection().then(() => {}).catch(() => {});
