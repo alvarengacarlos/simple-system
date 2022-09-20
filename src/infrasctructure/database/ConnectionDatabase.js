@@ -2,6 +2,7 @@ import { MongoClient } from "mongodb";
 import process from "process";
 
 import Logger from "../../util/Logger.js";
+import Exception from "../../helper/Exception.js";
 
 export default class ConnectionDatabase {
 
@@ -18,6 +19,7 @@ export default class ConnectionDatabase {
 
         } catch(error) {
             Logger.errorLog("fail to connect to database", error);
+            throw new Exception("sorry, internal error", 11, 500);
         }
     }
 
