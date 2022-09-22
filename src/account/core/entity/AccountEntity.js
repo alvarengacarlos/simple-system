@@ -13,8 +13,20 @@ export default class AccountEntity extends Entity {
         return this._email;
     }
 
+    setEmail(email) {
+        this._email = email;
+        
+        return this;
+    }
+
     getPassword() {
         return this._password;
+    }
+
+    setPassword(password) {
+        this._password = password;
+        
+        return this;
     }
 
 }

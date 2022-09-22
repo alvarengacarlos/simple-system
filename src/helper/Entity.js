@@ -1,42 +1,39 @@
 /**
  * This class must not instanciate. It must be extend.
  */
+import crypto from "crypto";
 
 export default class Entity {
 
-    _id = null;
-    _createAt = new Date();
-    _updateAt = new Date();
-
-    setId(id) {
-        if (this._id != null) {
-            throw new Error("the id is set");
-        }
-
-        this._id = id;
-        return this;
-    }
-
-    setCreateAt(createAt) {
-        this._createAt = createAt;
-        return this;
-    }
-
-    setUpdateAt(updateAt) {
-        this._updateAt = updateAt;
-        return this;
-    }
+    _id = crypto.randomUUID();
+    _createdAt = new Date();
+    _updatedAt = new Date();
 
     getId() {
         return this._id;
     }
 
-    getCreateAt() {
-        return this._createAt;
+    setId(id) {
+        this._id = id;
+        return this;
     }
 
-    getUpdateAt() {
-        return this._updateAt;
+    getCreatedAt() {
+        return this._createdAt;
     }
 
+    setCreatedAt(createdAt) {
+        this._createdAt = createdAt;
+        return this;
+    }
+
+    getUpdatedAt() {
+        return this._updatedAt;
+    }
+
+    setUpdatedAt(updatedAt) {
+        this._updatedAt = updatedAt;
+        return this;
+    }  
+    
 }
