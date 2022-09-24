@@ -1,6 +1,6 @@
 import Entity from "../../../helper/Entity.js";
 
-export default class TemporaryAccount extends Entity {
+export default class TemporaryAccountEntity extends Entity {
 
     constructor(email, token) {
         super();
@@ -15,6 +15,18 @@ export default class TemporaryAccount extends Entity {
 
     getToken() {
         return this._token;
+    }
+
+    setEmail(email) {
+        this._email = email;
+
+        return this;
+    }
+
+    setToken(token) {
+        this._token = token;
+
+        return this;
     }
 
 }
