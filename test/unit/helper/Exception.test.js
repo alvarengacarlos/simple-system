@@ -2,7 +2,7 @@ import { it, describe } from "mocha";
 import { expect } from "chai";
 import { faker } from "@faker-js/faker";
 
-import Exception from "../../src/exception/Exception.js";
+import Exception from "../../../src/helper/Exception.js";
 
 describe("Exception", () => {
 
