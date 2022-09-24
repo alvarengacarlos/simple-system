@@ -16,4 +16,14 @@ export default class LoginAndLogoutEntity extends Entity {
         return this._token;
     }
 
+    setEmail(email) {
+        this._email = email;
+        return this;
+    }
+
+    setToken(token) {
+        this._token = token;
+        return this;
+    }
+
 }
