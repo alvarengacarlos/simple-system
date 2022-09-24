@@ -6,19 +6,10 @@ import { faker } from "@faker-js/faker";
 
 chai.use(chaiAsPromised);
 
-import process from "process";
-
 import TokenService from "../../../../src/service/token/TokenService.js";
 import Exception from "../../../../src/helper/Exception.js";
 
 describe("TokenService.js", () => {
-
-    before(() => {
-        process.env.ISSUER = process.env.TEST_ISSUER;
-        process.env.EXPIRATION_TIME = process.env.TEST_EXPIRATION_TIME;
-        process.env.PRIVATE_KEY = process.env.TEST_PRIVATE_KEY;
-        process.env.PUBLIC_KEY = process.env.TEST_PUBLIC_KEY;        
-    })
 
     let tokenService = null
     beforeEach(() => {  
