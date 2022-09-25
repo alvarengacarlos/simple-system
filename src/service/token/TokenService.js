@@ -12,11 +12,25 @@ export default class TokenService {
     };
 
     constructor() {
-        this._issuer = process.env.ISSUER;
-        this._expirationTime = process.env.EXPIRATION_TIME;
+        this._issuer = process.env.ISSUER;        
+        this._expirationTime = this._createExpirationTime();
         this._privateKey = process.env.PRIVATE_KEY;
         this._publicKey = process.env.PUBLIC_KEY;
     }    
+
+    _createExpirationTime() {
+        const dateNow = new Date();
+        const expirationTime = new Date();
+        expirationTime.setMilliseconds(
+            dateNow.getMilliseconds() + Number(process.env.EXPIRATION_TIME_IN_MILLISECONDS)
+        );
+
+        return this._convertDateToUnixTimestamp(expirationTime);
+    }   
+
+    _convertDateToUnixTimestamp(date) {        
+        return Math.floor(date / 1000);
+    }
 
     async generateCreateAccountToken() {        
         const token = this._generateJwtToken(TokenService.tokenTypes.CREATE_ACCOUNT);
