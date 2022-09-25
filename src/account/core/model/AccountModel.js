@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import process from "process";
 
 import AccountEntity from "../entity/AccountEntity.js";
 import TemporaryAccountEntity from "../entity/TemporaryAccountEntity.js";
@@ -34,7 +35,7 @@ export default class AccountModel {
     }
 
     _createCleanerForTemporaryAccount(email) {
-        const timeInMilliseconds = process.env.TIME_IN_MILLISECONDS_TO_REMOVE_THE_TEMPORARY_ACCOUNT;
+        const timeInMilliseconds = process.env.EXPIRATION_TIME_IN_MILLISECONDS;
         
         setTimeout(function (email, temporaryAccountRepository) {
             temporaryAccountRepository.deleteAnTemporaryAccountByEmail(email);
@@ -128,8 +129,8 @@ export default class AccountModel {
         if (!accountEntity) {
             throw new Exception("the email or password are incorrect", 1, 400);
         }
-        
-        const loginAndLogoutEntity = this._loginAndLogoutRepository.retriveAnRegisterLoginByEmail(email);
+
+        const loginAndLogoutEntity = this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);
         if (loginAndLogoutEntity) {
             throw new Exception("you are already logged in", 6, 409);
         }
@@ -139,12 +140,12 @@ export default class AccountModel {
     }
 
     logout(email) {
-        const registerLoginEntity = this._loginAndLogoutRepository.retriveAnRegisterLoginByEmail(email);        
+        const registerLoginEntity = this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);        
         if (!registerLoginEntity) {
             throw new Exception("the account is not logged", 4, 403);
         }
 
-        this._loginAndLogoutRepository.deleteLoginByEmail(email);
+        this._loginAndLogoutRepository.deleteAnLoginAndLogoutEntityByEmail(email);
     }
 
 }

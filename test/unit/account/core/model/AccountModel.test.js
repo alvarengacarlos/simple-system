@@ -3,8 +3,6 @@ import { expect } from "chai";
 import { faker } from "@faker-js/faker";
 import sinon from "sinon";
 
-import process from "process";
-
 import AccountModel from "../../../../../src/account/core/model/AccountModel.js";
 import AccountRepository from "../../../../../src/account/core/repository/AccountRepository.js";
 import TemporaryAccountRepository from "../../../../../src/account/core/repository/TemporaryAccountRepository.js";
@@ -18,8 +16,6 @@ describe("AccountModel.js", () => {
         email = faker.internet.email();
         password = faker.internet.password();
         token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
-        
-        process.env.TIME_IN_MILLISECONDS_TO_REMOVE_THE_TEMPORARY_ACCOUNT = 0;
     });
 
     let accountModel;
@@ -390,7 +386,7 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns("ACCOUNT");
 
-            loginAndLogoutRepositoryMock.expects("retriveAnRegisterLoginByEmail")
+            loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("LOGIN_REGISTER");
@@ -415,7 +411,7 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns("ACCOUNT");
 
-            loginAndLogoutRepositoryMock.expects("retriveAnRegisterLoginByEmail")
+            loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -441,7 +437,7 @@ describe("AccountModel.js", () => {
             and not found the login register
             and throw the account is not logged exception`,
         () => {
-            loginAndLogoutRepositoryMock.expects("retriveAnRegisterLoginByEmail")
+            loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -458,12 +454,12 @@ describe("AccountModel.js", () => {
             and found the login register
             and delete the login register`,
         () => {
-            loginAndLogoutRepositoryMock.expects("retriveAnRegisterLoginByEmail")
+            loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("LOGIN_REGISTER");
 
-            loginAndLogoutRepositoryMock.expects("deleteLoginByEmail")
+            loginAndLogoutRepositoryMock.expects("deleteAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns();
