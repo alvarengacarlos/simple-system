@@ -1,6 +1,6 @@
-import TokenService from "../../service/token/TokenService.js";
-import EmailService from "../../service/email/EmailService.js";
-import AccountModel from "./AccountModel.js";
+import TokenService from "../../../service/token/TokenService.js";
+import EmailService from "../../../service/email/EmailService.js";
+import AccountModel from "../model/AccountModel.js";
 
 export default class AccountController {
 
@@ -17,16 +17,16 @@ export default class AccountController {
         this._emailService.sendCreateAccountMail(email, token);
     }
 
-    async twoStepToCreateAnAccount(token, email, password) {        
+    async secondStepToCreateAnAccount(token, email, password) {        
         await this._tokenService.checkCreateAccountToken(token);
 
-        this._accountModel.twoStepToCreateAnAccount(email, password, token);
+        this._accountModel.secondStepToCreateAnAccount(email, password, token);
     }
 
-    async deleteAccount(token, email, password) {
+    async deleteMyAccount(token, email, password) {
         await this._tokenService.checkLoginToken(token);
         
-        this._accountModel.deleteAnAccount(email, password);
+        this._accountModel.deleteMyAccount(email, password);
     }
 
     async firstStepToResetAccountPassword(email) {        
@@ -43,16 +43,18 @@ export default class AccountController {
         this._accountModel.secondStepToResetAccountPassword(email, newPassword, token);        
     }
 
-    async changePassword(token, email, oldPassword, newPassword) {
+    async changeMyPassword(token, email, oldPassword, newPassword) {
         await this._tokenService.checkLoginToken(token);
 
-        this._accountModel.changePassword(email, oldPassword, newPassword);
+        this._accountModel.changeMyPassword(email, oldPassword, newPassword);
     }
 
     async login(email, password) {
         const token = await this._tokenService.generateLoginToken();
         
         this._accountModel.login(email, password, token);
+
+        return token;
     }
 
     async logout(token, email) {
