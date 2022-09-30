@@ -1,12 +1,12 @@
-import { syncEntryPointLog, syncEndPointLog, syncErrorLog } from "./logger.js";
+import { entryPointLog, endPointLog, errorLog } from "./web-api-logger.js";
 import handlerError from "./handleError.js";
 
 export function beforeRouteMiddlewares(app) {
-    app.use(syncEntryPointLog);
+    app.use(entryPointLog);
 }
 
 export function afterRouteMiddlewares(app) {
-    app.use(syncEndPointLog);
-    app.use(syncErrorLog);
+    app.use(endPointLog);
+    app.use(errorLog);
     app.use(handlerError);
 }
