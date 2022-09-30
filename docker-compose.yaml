@@ -13,14 +13,14 @@ services:
       - ./:/home/node/simple-system
     command: sh -c "npm install && npm run start"
     depends_on:
-      - main-database
+      - mongo-database
 
-  main-database:
-    container_name: main-database
+  mongo-database:
+    container_name: mongo-database
     image: mongo:latest
     env_file:
       - .env
     environment:
       - MONGO_INITDB_DATABASE=${DB_NAME}
       - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_USER_PASSWORD}       
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_USER_PASSWORD}
