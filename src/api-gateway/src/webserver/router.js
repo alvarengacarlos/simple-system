@@ -6,7 +6,7 @@ export default function router(app) {
             
         } catch (error) {
             error.message = "Test error";
-            error.httpStatus = 500;
+            error.httpStatusCode = 500;
             next(error);
         }       
     });

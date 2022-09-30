@@ -1,5 +1,5 @@
-import authenticationSubApp from "../../../authentication/index.js";
+import accountSubApp from "../../../account/index.js";
 
 export default function mountSubApps(app) {
-    app.use("/authentication", authenticationSubApp);
+    app.use("/account", accountSubApp);
 }
