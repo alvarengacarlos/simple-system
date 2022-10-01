@@ -1,7 +1,5 @@
 import AccountEntity from "../entity/AccountEntity.js";
 import MongoDbRepository from "../../../helper/MongoDbRepository.js"
-import ConnectionDatabase from "../../../infrasctructure/database/ConnectionDatabase.js";
-
 
 export default class AccountRepository extends MongoDbRepository {
     
@@ -10,7 +8,7 @@ export default class AccountRepository extends MongoDbRepository {
     }
 
     async retrieveAccountEntityById(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedAccount = await connection.collection(this._collectionName).findOne({ _id: id });
 
@@ -25,7 +23,7 @@ export default class AccountRepository extends MongoDbRepository {
     }
 
     async retrieveAllAccountEntities() {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
         const cursor = await connection.collection(this._collectionName).find();
         
         let retrievedAccounts = [];
@@ -44,7 +42,7 @@ export default class AccountRepository extends MongoDbRepository {
     }
 
     async retrieveAnAccountByEmailAndPassword(email, password) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedAccount = await connection.collection(this._collectionName).findOne({ _email: email, _password: password});
         
@@ -60,7 +58,7 @@ export default class AccountRepository extends MongoDbRepository {
     }
 
     async retrieveAnAccountByEmail(email) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedAccount = await connection.collection(this._collectionName).findOne({ _email: email });
         
@@ -76,13 +74,13 @@ export default class AccountRepository extends MongoDbRepository {
     }
 
     async updateAnAccountPasswordById(id, password) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).updateOne({ _id: id }, { $set: {_password: password, _updatedAt: new Date()}});
     }
 
     async deleteAnAccountByIdEmailAndPassword(id, email, password) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).deleteOne({ _id: id, _email: email, _password: password});
     }

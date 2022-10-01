@@ -4,7 +4,6 @@ import { faker } from "@faker-js/faker";
 
 import AccountRepository from "../../../../../src/account/core/repository/AccountRepository.js";
 import AccountEntity from "../../../../../src/account/core/entity/AccountEntity.js";
-import ConnectionDatabase from "../../../../../src/infrasctructure/database/ConnectionDatabase.js";
 
 describe("AccountRepository", () => {
 
@@ -16,13 +15,13 @@ describe("AccountRepository", () => {
     }
 
     async function saveOneAccountEntityInDatabaseHelper(accountEntity) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await accountRepository.getConnection();
         await connection.collection(accountRepository.getCollectionName())
             .insertOne(accountEntity);
     }
 
     async function retrieveOneAccountByIdInDatabaseHelper(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await accountRepository.getConnection();
         
         const retrievedAccount = await connection.collection(accountRepository.getCollectionName())
             .findOne({_id: id});        
@@ -40,14 +39,14 @@ describe("AccountRepository", () => {
     let accountRepository;
     before(() => {
         accountRepository = new AccountRepository();
-        ConnectionDatabase.getConnection()
+        accountRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(accountRepository.getCollectionName());
             });        
     });
 
     afterEach(() => {
-        ConnectionDatabase.getConnection()
+        accountRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(accountRepository.getCollectionName());
             });
