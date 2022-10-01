@@ -1,5 +1,3 @@
-//Ver como implementar cada um dos métodos http
-
 # Code Message Http
 1 - the email or password are incorrect - 400
 2 - the email already belongs to an account - 409
@@ -12,3 +10,5 @@
 9 - the email is not in the registration process - 400
 10 - the email is not in the reset password process - 400
 11 - sorry, internal error - 500
+
+## Reference: [Restful API](https://restfulapi.net/http-status-codes/).
