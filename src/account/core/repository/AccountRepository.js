@@ -1,9 +1,9 @@
 import AccountEntity from "../entity/AccountEntity.js";
-import Repository from "../../../helper/Repository.js"
+import MongoDbRepository from "../../../helper/MongoDbRepository.js"
 import ConnectionDatabase from "../../../infrasctructure/database/ConnectionDatabase.js";
 
 
-export default class AccountRepository extends Repository {
+export default class AccountRepository extends MongoDbRepository {
     
     constructor() {        
         super("account");

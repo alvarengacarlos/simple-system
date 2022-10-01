@@ -4,13 +4,13 @@ import process from "process";
 import Logger from "../../util/Logger.js";
 import Exception from "../../helper/Exception.js";
 
-export default class ConnectionDatabase {
+export default class ConnectionMongoDb {
 
     static _uri = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_USER_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/?maxPoolSize=1&w=majority`;
     static _connection = null;
     
     static async _connect() {
-        const client = new MongoClient(ConnectionDatabase._uri);
+        const client = new MongoClient(ConnectionMongoDb._uri);
         try {                        
             await client.connect();
             await client.db(process.env.DB_NAME).command({ping: 1});
@@ -24,11 +24,11 @@ export default class ConnectionDatabase {
     }
 
     static async getConnection() {
-        if (ConnectionDatabase._connection) {
-            return ConnectionDatabase._connection;
+        if (ConnectionMongoDb._connection) {
+            return ConnectionMongoDb._connection;
         }
-        ConnectionDatabase._connection = await ConnectionDatabase._connect();
-        return ConnectionDatabase._connection;
+        ConnectionMongoDb._connection = await ConnectionMongoDb._connect();
+        return ConnectionMongoDb._connection;
     }
 
 }

@@ -1,9 +1,9 @@
 /**
  * This class must not instanciate. It must be extend.
  */
-import ConnectionDatabase from "../infrasctructure/database/ConnectionDatabase.js";
+import ConnectionMongoDb from "../infrasctructure/database/ConnectionMongoDb.js";
 
-export default class Repository {
+export default class MongoDbRepository {
 
     constructor(collectionName) {
         this._collectionName = collectionName;
@@ -13,8 +13,12 @@ export default class Repository {
         return this._collectionName;
     }
 
+    async getConnection() {
+        return await ConnectionMongoDb.getConnection();
+    }
+
     async saveEntity(entity) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await ConnectionMongoDb.getConnection();
 
         const result = await connection.collection(this._collectionName).insertOne(entity);
 
@@ -26,13 +30,13 @@ export default class Repository {
     }
 
     async updateEntityById(id, entity) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await ConnectionMongoDb.getConnection();
 
         await connection.collection(this._collectionName).updateOne({ _id: id }, { $set: entity});
     }
 
     async deleteEntityById(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await ConnectionMongoDb.getConnection();
 
         await connection.collection(this._collectionName).deleteOne({ _id: id });
     }

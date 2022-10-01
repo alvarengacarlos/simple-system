@@ -1,24 +1,23 @@
 import { it, describe, before, afterEach } from "mocha";
 import { expect } from "chai";
 
-import Repository from "../../../src/helper/Repository.js";
+import MongoDbRepository from "../../../src/helper/MongoDbRepository.js";
 import Entity from "../../../src/helper/Entity.js";
-import ConnectionDatabase from "../../../src/infrasctructure/database/ConnectionDatabase.js";
 
-describe("Repository", () => {
+describe("MongoDbRepository", () => {
 
     function generateMyEntityHelper() {
         return new Entity();
     }
 
     async function saveEntityInDatabaseHelper(entity) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await repository.getConnection();
         await connection.collection(repository.getCollectionName())
             .insertOne(entity);
     }
 
     async function retrieveOneEntityByIdInDatabaseHelper(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await repository.getConnection();
         
         const retrievedEntity = await connection.collection(repository.getCollectionName())
             .findOne({_id: id});        
@@ -35,15 +34,15 @@ describe("Repository", () => {
 
     let repository;
     before(() => {
-        repository = new Repository("repository");
-        ConnectionDatabase.getConnection()
+        repository = new MongoDbRepository("repository");
+        repository.getConnection()
             .then((connection) => {
                 connection.dropCollection(repository.getCollectionName());
             });        
     });
 
     afterEach(() => {
-        ConnectionDatabase.getConnection()
+        repository.getConnection()
             .then((connection) => {
                 connection.dropCollection(repository.getCollectionName());
             });
