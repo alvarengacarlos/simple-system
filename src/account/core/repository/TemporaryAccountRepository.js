@@ -1,15 +1,14 @@
-import Repository from "../../../helper/Repository.js";
 import TemporaryAccountEntity from "../entity/TemporaryAccountEntity.js";
-import ConnectionDatabase from "../../../infrasctructure/database/ConnectionDatabase.js";
+import MongoDbRepository from "../../../helper/MongoDbRepository.js";
 
-export default class TemporaryAccountRepository extends Repository {
+export default class TemporaryAccountRepository extends MongoDbRepository {
 
     constructor() {
         super("temporaryAccount");
     }
 
     async retrieveAnTemporaryAccountEntityById(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedTemporaryAccount = await connection.collection(this._collectionName).findOne({ _id: id });
 
@@ -24,7 +23,7 @@ export default class TemporaryAccountRepository extends Repository {
     }
 
     async retrieveAllTemporaryAccountEntities() {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
         const cursor = await connection.collection(this._collectionName).find();
         
         let retrievedTemporaryAccounts = [];
@@ -44,7 +43,7 @@ export default class TemporaryAccountRepository extends Repository {
 
 
     async retrieveAnTemporaryAccountByEmail(email) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedTemporaryAccount = await connection.collection(this._collectionName).findOne({ _email: email });
 
@@ -59,7 +58,7 @@ export default class TemporaryAccountRepository extends Repository {
     }
 
     async retrieveAnTemporaryAccountByEmailAndToken(email, token) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         const retrievedTemporaryAccount = await connection.collection(this._collectionName).findOne({ _email: email, _token: token });
 
@@ -74,7 +73,7 @@ export default class TemporaryAccountRepository extends Repository {
     }
 
     async deleteAnTemporaryAccountByEmail(email) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).deleteOne({ _email: email });
     }

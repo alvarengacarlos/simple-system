@@ -4,7 +4,6 @@ import { faker } from "@faker-js/faker";
 
 import LoginAndLogoutRepository from "../../../../../src/account/core/repository/LoginAndLogoutRepository.js";
 import LoginAndLogoutEntity from "../../../../../src/account/core/entity/LoginAndLogoutEntity.js";
-import ConnectionDatabase from "../../../../../src/infrasctructure/database/ConnectionDatabase.js";
 
 describe("LoginAndLogoutRepository", () => {
 
@@ -16,13 +15,13 @@ describe("LoginAndLogoutRepository", () => {
     }
 
     async function saveOneLoginAndLogoutEntityInDatabaseHelper(loginAndLogoutEntity) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await loginAndLogoutRepository.getConnection();
         await connection.collection(loginAndLogoutRepository.getCollectionName())
             .insertOne(loginAndLogoutEntity);
     }
 
     async function retrieveOneLoginAndLogoutEntityByIdInDatabaseHelper(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await loginAndLogoutRepository.getConnection();
         
         const retrievedLoginAndLogout = await connection.collection(loginAndLogoutRepository.getCollectionName())
             .findOne({_id: id});        
@@ -40,14 +39,14 @@ describe("LoginAndLogoutRepository", () => {
     let loginAndLogoutRepository;
     before(() => {
         loginAndLogoutRepository = new LoginAndLogoutRepository();
-        ConnectionDatabase.getConnection()
+        loginAndLogoutRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(loginAndLogoutRepository.getCollectionName());
             });        
     });
 
     afterEach(() => {
-        ConnectionDatabase.getConnection()
+        loginAndLogoutRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(loginAndLogoutRepository.getCollectionName());
             });

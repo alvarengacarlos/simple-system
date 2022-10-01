@@ -4,7 +4,6 @@ import { faker } from "@faker-js/faker";
 
 import TemporaryAccountEntity from "../../../../../src/account/core/entity/TemporaryAccountEntity.js";
 import TemporaryAccountRepository from "../../../../../src/account/core/repository/TemporaryAccountRepository.js";
-import ConnectionDatabase from "../../../../../src/infrasctructure/database/ConnectionDatabase.js";
 
 describe("AccountRepository", () => {
 
@@ -16,13 +15,13 @@ describe("AccountRepository", () => {
     }
 
     async function saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccountEntity) {        
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await temporaryAccountRepository.getConnection();
         await connection.collection(temporaryAccountRepository.getCollectionName())
             .insertOne(temporaryAccountEntity);
     }
 
     async function retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(id) {
-        const connection = await ConnectionDatabase.getConnection();
+        const connection = await temporaryAccountRepository.getConnection();
         
         const temporaryAccountEntity = await connection.collection(temporaryAccountRepository.getCollectionName())
             .findOne({_id: id});        
@@ -40,14 +39,14 @@ describe("AccountRepository", () => {
     let temporaryAccountRepository;
     before(() => {
         temporaryAccountRepository = new TemporaryAccountRepository();
-        ConnectionDatabase.getConnection()
+        temporaryAccountRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(temporaryAccountRepository.getCollectionName());
             });        
     });
 
     afterEach(() => {
-        ConnectionDatabase.getConnection()
+        temporaryAccountRepository.getConnection()
             .then((connection) => {
                 connection.dropCollection(temporaryAccountRepository.getCollectionName());
             });
