@@ -18,7 +18,7 @@ export default class ConnectionMongoDb {
             return client.db(process.env.DB_NAME);
 
         } catch(error) {
-            Logger.errorLog("fail to connect to database", error);
+            Logger.errorLog("fail to connect to mongo database", error);
             throw new Exception("sorry, internal error", 11, 500);
         }
     }
