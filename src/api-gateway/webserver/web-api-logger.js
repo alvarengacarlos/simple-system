@@ -1,4 +1,4 @@
-import Logger from "../../../util/Logger.js";
+import Logger from "../../util/Logger.js";
 
 export function entryPointLog(request, response, next) {
     const currentDate = new Date().toLocaleString();      
