@@ -14,8 +14,8 @@ export default class CleanerService {
     initCleanerForTemporaryAccount() {
         setInterval(async () => {
             const allTemporaryAccountEntities = await this._getAllTemporaryAccountEntities();
-            await this._removeTemporaryAccoountEntities(allTemporaryAccountEntities);
-        }, ONE_MINUTE);
+            await this._removeTemporaryAccountEntites(allTemporaryAccountEntities);
+        }, CleanerService.ONE_MINUTE);
 
         return this;
     }
@@ -24,7 +24,7 @@ export default class CleanerService {
         return await this._temporaryAccountRepository.retrieveAllTemporaryAccountEntities();
     }
 
-    async _removeTemporaryAccoountEntites(allTemporaryAccountEntities) {
+    async _removeTemporaryAccountEntites(allTemporaryAccountEntities) {
         allTemporaryAccountEntities.forEach(async (temporaryAccountEntity) => {
             const difference = this._returnDifferenceBetweenNowAndCreatedAt(temporaryAccountEntity);
             if (difference >= this._expirationTime) {                
@@ -48,7 +48,7 @@ export default class CleanerService {
         setInterval(async () => {
             const allLoginAndLogoutEntities = await this._getAllLoginAndLogoutEntities();
             await this._removeLoginAndLogoutEntities(allLoginAndLogoutEntities);
-        }, ONE_MINUTE);
+        }, CleanerService.ONE_MINUTE);
 
         return this;
     }

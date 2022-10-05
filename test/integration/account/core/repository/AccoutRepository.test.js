@@ -88,7 +88,7 @@ describe("AccountRepository", () => {
             const accountEntity = generateAccountEntityHelper();
             await saveOneAccountEntityInDatabaseHelper(accountEntity);
 
-            const retrievedAccount = await accountRepository.retrieveAnAccountByEmailAndPassword(
+            const retrievedAccount = await accountRepository.retrieveAnAccountEntityByEmailAndPassword(
                 accountEntity.getEmail(),
                 accountEntity.getPassword()
             );            
@@ -104,7 +104,7 @@ describe("AccountRepository", () => {
             const accountEntity = generateAccountEntityHelper();
             await saveOneAccountEntityInDatabaseHelper(accountEntity);
 
-            const retrievedAccount = await accountRepository.retrieveAnAccountByEmail(
+            const retrievedAccount = await accountRepository.retrieveAnAccountEntityByEmail(
                 accountEntity.getEmail()
             );            
 
@@ -121,7 +121,7 @@ describe("AccountRepository", () => {
 
             const newPassword = faker.internet.password();            
 
-            await accountRepository.updateAnAccountPasswordById(
+            await accountRepository.updateAnAccountEntityPasswordById(
                 accountEntity.getId(),
                 newPassword
             );
@@ -139,7 +139,7 @@ describe("AccountRepository", () => {
             const accountEntity = generateAccountEntityHelper();
             await saveOneAccountEntityInDatabaseHelper(accountEntity);
 
-            await accountRepository.deleteAnAccountByIdEmailAndPassword(
+            await accountRepository.deleteAnAccountEntityByIdEmailAndPassword(
                 accountEntity.getId(),
                 accountEntity.getEmail(),
                 accountEntity.getPassword()

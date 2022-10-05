@@ -113,7 +113,7 @@ describe("CleanerService.js", () => {
                 await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccountEntity);
                 const allTemporaryAccountEntities = await retrieveAllTemporaryAccountEntitiesByIdInDatabaseHelper();
         
-                await cleanerService._removeTemporaryAccoountEntites(allTemporaryAccountEntities);
+                await cleanerService._removeTemporaryAccountEntites(allTemporaryAccountEntities);
         
                 const allTemporaryAccountEntitiesAfterDelete = await retrieveAllTemporaryAccountEntitiesByIdInDatabaseHelper();
                 
