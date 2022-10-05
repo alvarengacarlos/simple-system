@@ -42,7 +42,7 @@ export default class TemporaryAccountRepository extends MongoDbRepository {
     }
 
 
-    async retrieveAnTemporaryAccountByEmail(email) {
+    async retrieveAnTemporaryAccountEntityByEmail(email) {
         const connection = await this.getConnection();
 
         const retrievedTemporaryAccount = await connection.collection(this._collectionName).findOne({ _email: email });
@@ -57,7 +57,7 @@ export default class TemporaryAccountRepository extends MongoDbRepository {
         return null;
     }
 
-    async retrieveAnTemporaryAccountByEmailAndToken(email, token) {
+    async retrieveAnTemporaryAccountEntityByEmailAndToken(email, token) {
         const connection = await this.getConnection();
 
         const retrievedTemporaryAccount = await connection.collection(this._collectionName).findOne({ _email: email, _token: token });
@@ -72,7 +72,7 @@ export default class TemporaryAccountRepository extends MongoDbRepository {
         return null;
     }
 
-    async deleteAnTemporaryAccountByEmail(email) {
+    async deleteAnTemporaryAccountEntityByEmail(email) {
         const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).deleteOne({ _email: email });

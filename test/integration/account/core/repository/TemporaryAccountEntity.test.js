@@ -87,7 +87,7 @@ describe("AccountRepository", () => {
             const temporaryAccount = generateTemporaryAccountEntityHelper();
             await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountByEmail(temporaryAccount.getEmail());
+            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
 
             expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
         });
@@ -100,7 +100,7 @@ describe("AccountRepository", () => {
             const temporaryAccount = generateTemporaryAccountEntityHelper();
             await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountByEmailAndToken(
+            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(
                 temporaryAccount.getEmail(),
                 temporaryAccount.getToken()
             );
@@ -116,7 +116,7 @@ describe("AccountRepository", () => {
             const temporaryAccount = generateTemporaryAccountEntityHelper();
             await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            await temporaryAccountRepository.deleteAnTemporaryAccountByEmail(temporaryAccount.getEmail());
+            await temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
 
             const retrievedTemporaryAccount = await retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(temporaryAccount.getId());
 
