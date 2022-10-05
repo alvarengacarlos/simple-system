@@ -68,7 +68,7 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns(null);
 
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmail")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("TEMPORARY_ACCOUNT");
@@ -92,7 +92,7 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns(null);
 
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmail")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -117,7 +117,7 @@ describe("AccountModel.js", () => {
             when requested to execute the second step to create an account
             then it must throw the email is not in the registration process exception`,
         () => {
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmailAndToken")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns(null);
@@ -134,12 +134,12 @@ describe("AccountModel.js", () => {
             and create an account
             and delete the temporary account`,
         () => {
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmailAndToken")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns("TEMPORARY_ACCOUNT");
             
-            temporaryAccountRepositoryMock.expects("deleteAnTemporaryAccountByEmail")
+            temporaryAccountRepositoryMock.expects("deleteAnTemporaryAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns();
@@ -258,7 +258,7 @@ describe("AccountModel.js", () => {
             and not found the temporary account
             and throw the email is not in the reset password process exception`,
         () => {
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmailAndToken")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns(null);
@@ -279,12 +279,12 @@ describe("AccountModel.js", () => {
             and update the account password
             and delete the temporary account`,
         () => {
-            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountByEmailAndToken")
+            temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns("TEMPORARY_ACCOUNT");
 
-            temporaryAccountRepositoryMock.expects("deleteAnTemporaryAccountByEmail")
+            temporaryAccountRepositoryMock.expects("deleteAnTemporaryAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns();

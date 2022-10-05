@@ -23,27 +23,17 @@ export default class AccountModel {
             throw new Exception("the email already belongs to an account", 2, 409);
         }
 
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountByEmail(email);
+        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(email);
         if (temporaryAccountEntity) {
             throw new Exception("the email already in the registration process", 8, 409);
         }
 
         const newTemporaryAccountEntity = new TemporaryAccountEntity(email, token);
         this._temporaryAccountRepository.saveEntity(newTemporaryAccountEntity);
-
-        this._createCleanerForTemporaryAccount(email);
-    }
-
-    _createCleanerForTemporaryAccount(email) {
-        const timeInMilliseconds = process.env.EXPIRATION_TIME_IN_MILLISECONDS;
-        
-        setTimeout(function (email, temporaryAccountRepository) {
-            temporaryAccountRepository.deleteAnTemporaryAccountByEmail(email);
-        }, timeInMilliseconds, email, this._temporaryAccountRepository);
     }
 
     secondStepToCreateAnAccount(email, password, token) {
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountByEmailAndToken(email, token);
+        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
         if (!temporaryAccountEntity) {
             throw new Exception("the email is not in the registration process", 9, 400);
         }
@@ -53,7 +43,7 @@ export default class AccountModel {
         
         this._accountRepository.saveEntity(newAccount);        
                 
-        this._temporaryAccountRepository.deleteAnTemporaryAccountByEmail(email);
+        this._temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(email);
     }
 
     _encryptPassword(password) {
@@ -86,12 +76,10 @@ export default class AccountModel {
 
         const temporaryAccountEntity = new TemporaryAccountEntity(email, token);        
         this._temporaryAccountRepository.saveEntity(temporaryAccountEntity);
-
-        this._createCleanerForTemporaryAccount(email);
     }
 
     secondStepToResetAccountPassword(email, newPassword, token) {
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountByEmailAndToken(email, token);
+        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
         if (!temporaryAccountEntity) {
             throw new Exception("the email is not in the reset password process", 9, 400);
         }
@@ -104,7 +92,7 @@ export default class AccountModel {
             encryptNewPassword
         );
 
-        this._temporaryAccountRepository.deleteAnTemporaryAccountByEmail(email);
+        this._temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(email);
     }
 
     changeMyPassword(email, oldPassword, newPassword) {
