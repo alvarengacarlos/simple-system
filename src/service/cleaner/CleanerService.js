@@ -16,6 +16,8 @@ export default class CleanerService {
             const allTemporaryAccountEntities = await this._getAllTemporaryAccountEntities();
             await this._removeTemporaryAccoountEntities(allTemporaryAccountEntities);
         }, ONE_MINUTE);
+
+        return this;
     }
 
     async _getAllTemporaryAccountEntities() {
@@ -47,6 +49,8 @@ export default class CleanerService {
             const allLoginAndLogoutEntities = await this._getAllLoginAndLogoutEntities();
             await this._removeLoginAndLogoutEntities(allLoginAndLogoutEntities);
         }, ONE_MINUTE);
+
+        return this;
     }
 
     async _getAllLoginAndLogoutEntities() {
