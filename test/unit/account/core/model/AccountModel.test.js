@@ -46,7 +46,7 @@ describe("AccountModel.js", () => {
             when requested to execute the first step to create an account
             then it must throw the email already belongs to an account exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("ACCOUNT");
@@ -63,7 +63,7 @@ describe("AccountModel.js", () => {
             when requested to execute the first step to create an account
             then it must throw the email already in the registration process exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -87,7 +87,7 @@ describe("AccountModel.js", () => {
             and create a timer to clear the temporary account 
             in case of do not execute the second step of account creation`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -157,7 +157,7 @@ describe("AccountModel.js", () => {
 
     });
 
-    describe("deleteAnAccount", () => {
+    describe("deleteMyAccount", () => {
         
         it(`given a registered account
             when requested to delete it
@@ -166,7 +166,7 @@ describe("AccountModel.js", () => {
             and not found the account
             and throw the password is incorrect exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")                
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")                
                 .once()
                 .returns(null);
                 
@@ -183,7 +183,7 @@ describe("AccountModel.js", () => {
             and found the account
             and delete it`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")                
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")                
                 .once()
                 .returns({
                     getId: sinon.stub(),
@@ -191,7 +191,7 @@ describe("AccountModel.js", () => {
                     getPassword: sinon.stub()
                 });
                 
-            accountRepositoryMock.expects("deleteAnAccountByIdEmailAndPassword")
+            accountRepositoryMock.expects("deleteAnAccountEntityByIdEmailAndPassword")
                 .once()
                 .returns(null);
 
@@ -211,7 +211,7 @@ describe("AccountModel.js", () => {
             and not found the account
             and throw the email does not belong to an account exception`,
         () => {            
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
@@ -230,7 +230,7 @@ describe("AccountModel.js", () => {
             and create a request to reset password
             and create a timer to clear the temporary account`,
         () => {            
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("ACCOUNT");
@@ -289,8 +289,14 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns();
 
-            accountRepositoryMock.expects("retrieveAnAccountByEmail")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
+                .once()
+                .returns({
+                    getId: sinon.stub()
+                });
+
+            accountRepositoryMock.expects("updateAnAccountEntityPasswordById")                
                 .once()
                 .returns({
                     getId: sinon.stub()
@@ -315,7 +321,7 @@ describe("AccountModel.js", () => {
             and not found the account
             and throw the password is incorrect exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns(null);
 
@@ -334,13 +340,13 @@ describe("AccountModel.js", () => {
             and encrypt the new password
             and update the account password`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns({
                     getId: sinon.stub()
                 });
 
-            accountRepositoryMock.expects("updateAnAccountPasswordById")
+            accountRepositoryMock.expects("updateAnAccountEntityPasswordById")
                 .once()
                 .returns();
 
@@ -362,7 +368,7 @@ describe("AccountModel.js", () => {
             and not found the account            
             and throw the email or password are incorrect exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns(null);
 
@@ -382,7 +388,7 @@ describe("AccountModel.js", () => {
             and found the login
             and throw you are already logged in exception`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns("ACCOUNT");
 
@@ -407,7 +413,7 @@ describe("AccountModel.js", () => {
             and not found the login
             and create the login`,
         () => {
-            accountRepositoryMock.expects("retrieveAnAccountByEmailAndPassword")
+            accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns("ACCOUNT");
 

@@ -41,7 +41,7 @@ export default class AccountRepository extends MongoDbRepository {
         return retrievedAccounts;
     }
 
-    async retrieveAnAccountByEmailAndPassword(email, password) {
+    async retrieveAnAccountEntityByEmailAndPassword(email, password) {
         const connection = await this.getConnection();
 
         const retrievedAccount = await connection.collection(this._collectionName).findOne({ _email: email, _password: password});
@@ -57,7 +57,7 @@ export default class AccountRepository extends MongoDbRepository {
         return null;
     }
 
-    async retrieveAnAccountByEmail(email) {        
+    async retrieveAnAccountEntityByEmail(email) {        
         const connection = await this.getConnection();
 
         const retrievedAccount = await connection.collection(this._collectionName).findOne({ _email: email });
@@ -73,13 +73,13 @@ export default class AccountRepository extends MongoDbRepository {
         return null; 
     }
 
-    async updateAnAccountPasswordById(id, password) {        
+    async updateAnAccountEntityPasswordById(id, password) {        
         const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).updateOne({ _id: id }, { $set: {_password: password, _updatedAt: new Date()}});
     }
 
-    async deleteAnAccountByIdEmailAndPassword(id, email, password) {
+    async deleteAnAccountEntityByIdEmailAndPassword(id, email, password) {
         const connection = await this.getConnection();
 
         await connection.collection(this._collectionName).deleteOne({ _id: id, _email: email, _password: password});

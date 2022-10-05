@@ -18,7 +18,7 @@ export default class AccountModel {
     }
 
     firstStepToCreateAccount(email, token) {
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmail(email);
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);
         if (accountEntity) {
             throw new Exception("the email already belongs to an account", 2, 409);
         }
@@ -54,13 +54,13 @@ export default class AccountModel {
     
     deleteMyAccount(email, password) {
         const encryptPassword = this._encryptPassword(password);
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmailAndPassword(email, encryptPassword);
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
 
         if (!accountEntity) {
             throw new Exception("the password is incorrect", 5, 400);
         }
 
-        this._accountRepository.deleteAnAccountByIdEmailAndPassword(
+        this._accountRepository.deleteAnAccountEntityByIdEmailAndPassword(
             accountEntity.getId(),
             accountEntity.getEmail(),
             accountEntity.getPassword()
@@ -68,7 +68,7 @@ export default class AccountModel {
     }
 
     firstStepToResetAccountPassword(email, token) {
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmail(email);
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);
 
         if (!accountEntity) {
             throw new Exception("the email does not belong to an account", 7, 400);
@@ -86,8 +86,8 @@ export default class AccountModel {
 
         const encryptNewPassword = this._encryptPassword(newPassword);
 
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmail(email);        
-        this._accountRepository.updateAnAccountPasswordById(
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);        
+        this._accountRepository.updateAnAccountEntityPasswordById(
             accountEntity.getId(),
             encryptNewPassword
         );
@@ -98,13 +98,13 @@ export default class AccountModel {
     changeMyPassword(email, oldPassword, newPassword) {
         const encryptOldPassword = this._encryptPassword(oldPassword);
         
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmailAndPassword(email, encryptOldPassword);
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptOldPassword);
         if (!accountEntity) {
             throw new Exception("the password is incorrect", 5, 400);
         }
 
         const encryptNewPassword = this._encryptPassword(newPassword);
-        this._accountRepository.updateAnAccountPasswordById(
+        this._accountRepository.updateAnAccountEntityPasswordById(
             accountEntity.getId(),
             encryptNewPassword
         );
@@ -113,7 +113,7 @@ export default class AccountModel {
     login(email, password, token) {
         const encryptPassword = this._encryptPassword(password);
         
-        const accountEntity = this._accountRepository.retrieveAnAccountByEmailAndPassword(email, encryptPassword);
+        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
         if (!accountEntity) {
             throw new Exception("the email or password are incorrect", 1, 400);
         }
