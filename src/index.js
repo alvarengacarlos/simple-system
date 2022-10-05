@@ -1,3 +1,3 @@
-import apiGateway from "./api-gateway/index.js";
+import initBootStrap from "./bootstrap.js"
 
-apiGateway();
+initBootStrap();
