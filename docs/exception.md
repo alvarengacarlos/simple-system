@@ -10,5 +10,6 @@
 9 - the email is not in the registration process - 400
 10 - the email is not in the reset password process - 400
 11 - sorry, internal error - 500
+12 - it is not possible to send the email - 500
 
 ## Reference: [Restful API](https://restfulapi.net/http-status-codes/).
