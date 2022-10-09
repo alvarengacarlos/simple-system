@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "c26aa380-f0e2-484f-b448-b12febd421b1",
+		"name": "simple-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "/account/test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/account/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/create-account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@email.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/create-account",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"create-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/confirm-account-creation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"\",\n    \"email\": \"user@email.com\",\n    \"password\": \"userpw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/confirm-account-creation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"confirm-account-creation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/delete-my-account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"\",\n    \"email\": \"user@email.com\",\n    \"password\": \"userpw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/delete-my-account",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"delete-my-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/reset-account-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@email.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/reset-account-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"reset-account-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/confirm-reset-account-password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"\",\n    \"email\": \"user@email.com\",\n    \"newPassword\": \"userpw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/confirm-reset-account-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"confirm-reset-account-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/change-my-password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"\",\n    \"email\": \"user@email.com\",\n    \"oldPassword\": \"userpw\",\n    \"newPassword\": \"pwuser\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/change-my-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"change-my-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@email.com\",\n    \"password\": \"userpw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/account/logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"\",\n    \"email\": \"user@email.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/account/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"account",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/test",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}
