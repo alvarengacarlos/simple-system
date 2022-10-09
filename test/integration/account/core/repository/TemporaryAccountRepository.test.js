@@ -5,7 +5,7 @@ import { faker } from "@faker-js/faker";
 import TemporaryAccountEntity from "../../../../../src/account/core/entity/TemporaryAccountEntity.js";
 import TemporaryAccountRepository from "../../../../../src/account/core/repository/TemporaryAccountRepository.js";
 
-describe("AccountRepository", () => {
+describe("TemporaryAccountRepository", () => {
 
     function generateTemporaryAccountEntityHelper() {
         return new TemporaryAccountEntity(
@@ -27,7 +27,7 @@ describe("AccountRepository", () => {
             .findOne({_id: id});        
 
         if (temporaryAccountEntity) {
-            return new TemporaryAccount(temporaryAccountEntity._email, temporaryAccountEntity._password)
+            return new TemporaryAccountEntity(temporaryAccountEntity._email, temporaryAccountEntity._password)
                 .setId(temporaryAccountEntity._id)
                 .setCreatedAt(temporaryAccountEntity._createdAt)
                 .setUpdatedAt(temporaryAccountEntity._updatedAt);
