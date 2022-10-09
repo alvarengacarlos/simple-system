@@ -17,12 +17,12 @@ app.get("/test", (request, response, next) => {
     }    
 });
 
-app.get("/create-account", async (request, response, next) => {
+app.post("/create-account", async (request, response, next) => {
     try {
-        Validation.createAccount(request.body);
-        const email = request.body.email;
+        const result = Validation.createAccountValidation(request?.body);        
+        
         const gateway = new Gateway();
-        await gateway.firstStepToCreateAccount(email);
+        await gateway.firstStepToCreateAccount(result.email);
         
         next();
         return response.status(200).json();
@@ -31,5 +31,110 @@ app.get("/create-account", async (request, response, next) => {
         next(exception);
     }        
 });
-    
+
+app.post("/confirm-account-creation", async (request, response, next) => {
+    try {
+        const result = Validation.confirmAccountCreationValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.secondStepToCreateAnAccount(result.email, result.token);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
+app.delete("/delete-my-account", async (request, response, next) => {
+    try {
+        const result = Validation.deleteMyAccountValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.deleteMyAccount(result.token, result.email, result.password);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+   
+app.post("/reset-account-password", async (request, response, next) => {
+    try {
+        const result = Validation.resetAccountPasswordValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.deleteMyAccount(result.email);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
+app.patch("/confirm-reset-account-password", async (request, response, next) => {
+    try {
+        const result = Validation.confirmResetAccountPasswordValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.secondStepToResetAccountPassword(result.token, result.email, result.newPassword);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
+app.patch("/change-my-password", async (request, response, next) => {
+    try {
+        const result = Validation.changeMyPassowrdValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.changeMyPassword(result.token, result.email, result.oldPassword, result.newPassword);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
+app.post("/login", async (request, response, next) => {
+    try {
+        const result = Validation.loginValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.login(result.email, result.password);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
+app.post("/logout", async (request, response, next) => {
+    try {
+        const result = Validation.logoutValidation(request?.body);
+        
+        const gateway = new Gateway();
+        await gateway.logout(result.token, result.email);
+        
+        next();
+        return response.status(200).json();
+
+    } catch (exception) {            
+        next(exception);
+    }        
+});
+
 export default app;

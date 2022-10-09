@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import process from "process";
 
 import AccountEntity from "../entity/AccountEntity.js";
 import TemporaryAccountEntity from "../entity/TemporaryAccountEntity.js";
@@ -17,23 +16,23 @@ export default class AccountModel {
         this._loginAndLogoutRepository = new LoginAndLogoutRepository();
     }
 
-    firstStepToCreateAccount(email, token) {
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);
+    async firstStepToCreateAccount(email, token) {
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmail(email);        
         if (accountEntity) {
             throw new Exception("the email already belongs to an account", 2, 409);
         }
-
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(email);
+        
+        const temporaryAccountEntity = await this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(email);
         if (temporaryAccountEntity) {
             throw new Exception("the email already in the registration process", 8, 409);
         }
 
         const newTemporaryAccountEntity = new TemporaryAccountEntity(email, token);
-        this._temporaryAccountRepository.saveEntity(newTemporaryAccountEntity);
+        await this._temporaryAccountRepository.saveEntity(newTemporaryAccountEntity);
     }
 
-    secondStepToCreateAnAccount(email, password, token) {
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
+    async secondStepToCreateAnAccount(email, password, token) {
+        const temporaryAccountEntity = await this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
         if (!temporaryAccountEntity) {
             throw new Exception("the email is not in the registration process", 9, 400);
         }
@@ -52,88 +51,90 @@ export default class AccountModel {
         return hash.digest('hex');
     }
     
-    deleteMyAccount(email, password) {
+    async deleteMyAccount(email, password) {
         const encryptPassword = this._encryptPassword(password);
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
 
         if (!accountEntity) {
             throw new Exception("the password is incorrect", 5, 400);
         }
 
-        this._accountRepository.deleteAnAccountEntityByIdEmailAndPassword(
+        await this._accountRepository.deleteAnAccountEntityByIdEmailAndPassword(
             accountEntity.getId(),
             accountEntity.getEmail(),
             accountEntity.getPassword()
         );
+
+        await this._loginAndLogoutRepository.deleteAnLoginAndLogoutEntityByEmail(email);
     }
 
-    firstStepToResetAccountPassword(email, token) {
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);
+    async firstStepToResetAccountPassword(email, token) {
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmail(email);
 
         if (!accountEntity) {
             throw new Exception("the email does not belong to an account", 7, 400);
         }
 
         const temporaryAccountEntity = new TemporaryAccountEntity(email, token);        
-        this._temporaryAccountRepository.saveEntity(temporaryAccountEntity);
+        await this._temporaryAccountRepository.saveEntity(temporaryAccountEntity);
     }
 
-    secondStepToResetAccountPassword(email, newPassword, token) {
-        const temporaryAccountEntity = this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
+    async secondStepToResetAccountPassword(email, newPassword, token) {
+        const temporaryAccountEntity = await this._temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(email, token);
         if (!temporaryAccountEntity) {
             throw new Exception("the email is not in the reset password process", 9, 400);
         }
 
         const encryptNewPassword = this._encryptPassword(newPassword);
 
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmail(email);        
-        this._accountRepository.updateAnAccountEntityPasswordById(
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmail(email);        
+        await this._accountRepository.updateAnAccountEntityPasswordById(
             accountEntity.getId(),
             encryptNewPassword
         );
 
-        this._temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(email);
+        await this._temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(email);
     }
 
-    changeMyPassword(email, oldPassword, newPassword) {
+    async changeMyPassword(email, oldPassword, newPassword) {
         const encryptOldPassword = this._encryptPassword(oldPassword);
         
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptOldPassword);
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptOldPassword);
         if (!accountEntity) {
             throw new Exception("the password is incorrect", 5, 400);
         }
 
         const encryptNewPassword = this._encryptPassword(newPassword);
-        this._accountRepository.updateAnAccountEntityPasswordById(
+        await this._accountRepository.updateAnAccountEntityPasswordById(
             accountEntity.getId(),
             encryptNewPassword
         );
     }
 
-    login(email, password, token) {
+    async login(email, password, token) {
         const encryptPassword = this._encryptPassword(password);
         
-        const accountEntity = this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
+        const accountEntity = await this._accountRepository.retrieveAnAccountEntityByEmailAndPassword(email, encryptPassword);
         if (!accountEntity) {
             throw new Exception("the email or password are incorrect", 1, 400);
         }
 
-        const loginAndLogoutEntity = this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);
+        const loginAndLogoutEntity = await this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);
         if (loginAndLogoutEntity) {
             throw new Exception("you are already logged in", 6, 409);
         }
 
         const newRegisterLoginEntity = new LoginAndLogoutEntity(email, token);
-        this._loginAndLogoutRepository.saveEntity(newRegisterLoginEntity);
+        await this._loginAndLogoutRepository.saveEntity(newRegisterLoginEntity);
     }
 
-    logout(email) {
-        const registerLoginEntity = this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);        
+    async logout(email) {
+        const registerLoginEntity = await this._loginAndLogoutRepository.retriveAnLoginAndLogoutEntityByEmail(email);        
         if (!registerLoginEntity) {
             throw new Exception("the account is not logged", 4, 403);
         }
 
-        this._loginAndLogoutRepository.deleteAnLoginAndLogoutEntityByEmail(email);
+        await this._loginAndLogoutRepository.deleteAnLoginAndLogoutEntityByEmail(email);
     }
 
 }

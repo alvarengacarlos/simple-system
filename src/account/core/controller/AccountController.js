@@ -12,47 +12,47 @@ export default class AccountController {
 
     async firstStepToCreateAccount(email) {        
         const token = await this._tokenService.generateCreateAccountToken();
-        this._accountModel.firstStepToCreateAccount(email, token);
+        await this._accountModel.firstStepToCreateAccount(email, token);
                 
-        this._emailService.sendCreateAccountMail(email, token);
+        await this._emailService.sendCreateAccountMail(email, token);
     }
 
     async secondStepToCreateAnAccount(token, email, password) {        
         await this._tokenService.checkCreateAccountToken(token);
 
-        this._accountModel.secondStepToCreateAnAccount(email, password, token);
+        await this._accountModel.secondStepToCreateAnAccount(email, password, token);
     }
 
     async deleteMyAccount(token, email, password) {
         await this._tokenService.checkLoginToken(token);
         
-        this._accountModel.deleteMyAccount(email, password);
+        await this._accountModel.deleteMyAccount(email, password);
     }
 
     async firstStepToResetAccountPassword(email) {        
         const token = await this._tokenService.generateResetPasswordToken();
         
-        this._accountModel.firstStepToResetAccountPassword(email, token);
+        await this._accountModel.firstStepToResetAccountPassword(email, token);
         
-        this._emailService.sendResetPasswordMail(email, token);
+        await this._emailService.sendResetPasswordMail(email, token);
     }
 
     async secondStepToResetAccountPassword(token, email, newPassword) {
         await this._tokenService.checkResetPasswordToken(token);
         
-        this._accountModel.secondStepToResetAccountPassword(email, newPassword, token);        
+        await this._accountModel.secondStepToResetAccountPassword(email, newPassword, token);        
     }
 
     async changeMyPassword(token, email, oldPassword, newPassword) {
         await this._tokenService.checkLoginToken(token);
 
-        this._accountModel.changeMyPassword(email, oldPassword, newPassword);
+        await this._accountModel.changeMyPassword(email, oldPassword, newPassword);
     }
 
     async login(email, password) {
         const token = await this._tokenService.generateLoginToken();
         
-        this._accountModel.login(email, password, token);
+        await this._accountModel.login(email, password, token);
 
         return token;
     }
@@ -60,7 +60,7 @@ export default class AccountController {
     async logout(token, email) {
         await this._tokenService.checkLoginToken(token);
         
-        this._accountModel.logout(email);
+        await this._accountModel.logout(email);
     }
 
 }

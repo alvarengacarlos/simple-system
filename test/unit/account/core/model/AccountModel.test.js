@@ -1,7 +1,11 @@
 import { it, describe, before, beforeEach, afterEach } from "mocha";
 import { expect } from "chai";
+import chai from "chai";
 import { faker } from "@faker-js/faker";
 import sinon from "sinon";
+import chaiAsPromised from "chai-as-promised";
+
+chai.use(chaiAsPromised);
 
 import AccountModel from "../../../../../src/account/core/model/AccountModel.js";
 import AccountRepository from "../../../../../src/account/core/repository/AccountRepository.js";
@@ -45,15 +49,16 @@ describe("AccountModel.js", () => {
         it(`given an email belonging to an account             
             when requested to execute the first step to create an account
             then it must throw the email already belongs to an account exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns("ACCOUNT");
 
-            expect(() => 
+            await expect(
                 accountModel.firstStepToCreateAccount(email, token)
-            ).to.throw(Exception);
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();            
             temporaryAccountRepositoryMock.verify();
         });       
@@ -62,7 +67,7 @@ describe("AccountModel.js", () => {
             but belonging a temporary account            
             when requested to execute the first step to create an account
             then it must throw the email already in the registration process exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
@@ -73,9 +78,10 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns("TEMPORARY_ACCOUNT");
 
-            expect(() => 
+            await expect(
                 accountModel.firstStepToCreateAccount(email, token)
-            ).to.throw(Exception);
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();            
             temporaryAccountRepositoryMock.verify();            
         });
@@ -86,7 +92,7 @@ describe("AccountModel.js", () => {
             then it must create a temporary account
             and create a timer to clear the temporary account 
             in case of do not execute the second step of account creation`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
@@ -101,9 +107,9 @@ describe("AccountModel.js", () => {
                 .once()                
                 .returns();
 
-            expect(() => 
+            await expect(
                 accountModel.firstStepToCreateAccount(email, token)
-            ).to.not.throw(Exception);
+            ).to.be.not.rejectedWith(Exception);
 
             accountRepositoryMock.verify();
             temporaryAccountRepositoryMock.verify();                      
@@ -116,15 +122,16 @@ describe("AccountModel.js", () => {
         it(`given email not belonging an temporary account
             when requested to execute the second step to create an account
             then it must throw the email is not in the registration process exception`,
-        () => {
+        async () => {
             temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns(null);
 
-            expect(() => {
-                accountModel.secondStepToCreateAnAccount(email, password, token);
-            }).to.throw(Exception);
+            await expect(
+                accountModel.secondStepToCreateAnAccount(email, password, token)
+            ).to.be.rejectedWith(Exception);
+
             temporaryAccountRepositoryMock.verify();            
         });
 
@@ -133,7 +140,7 @@ describe("AccountModel.js", () => {
             then it must encrypt the password received
             and create an account
             and delete the temporary account`,
-        () => {
+        async () => {
             temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
@@ -148,10 +155,11 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns();
 
-            expect(() => {
-                accountModel.secondStepToCreateAnAccount(email, password, token);
-            }).to.not.throw(Exception);
+            await expect(
+                accountModel.secondStepToCreateAnAccount(email, password, token)
+            ).to.be.not.rejectedWith(Exception);
             temporaryAccountRepositoryMock.verify();
+
             accountRepositoryMock.verify();
         })
 
@@ -165,14 +173,15 @@ describe("AccountModel.js", () => {
             and retrieve the account
             and not found the account
             and throw the password is incorrect exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")                
                 .once()
                 .returns(null);
                 
-            expect(() => {
-                accountModel.deleteMyAccount(email, password);
-            }).to.throw(Exception);
+            await expect(
+                accountModel.deleteMyAccount(email, password)
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
         });
         
@@ -182,7 +191,7 @@ describe("AccountModel.js", () => {
             and retrieve the account
             and found the account
             and delete it`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")                
                 .once()
                 .returns({
@@ -195,10 +204,16 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns(null);
 
-            expect(() => {
-                accountModel.deleteMyAccount(email, password);
-            }).to.not.throw(Exception);
+            loginAndLogoutRepositoryMock.expects("deleteAnLoginAndLogoutEntityByEmail")
+                .once()
+                .returns(null);
+
+            await expect(
+                accountModel.deleteMyAccount(email, password)
+            ).to.be.not.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
+            loginAndLogoutRepositoryMock.verify();
         });
 
     });
@@ -210,15 +225,15 @@ describe("AccountModel.js", () => {
             then it must retrieve the account
             and not found the account
             and throw the email does not belong to an account exception`,
-        () => {            
+        async () => {            
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
 
-            expect(() => 
+            await expect(
                 accountModel.firstStepToResetAccountPassword(email, token)
-            ).to.throw(Exception);
+            ).to.be.rejectedWith(Exception);
 
             accountRepositoryMock.verify();
         });
@@ -229,7 +244,7 @@ describe("AccountModel.js", () => {
             and found the account
             and create a request to reset password
             and create a timer to clear the temporary account`,
-        () => {            
+        async () => {            
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmail")
                 .withArgs(email)
                 .once()
@@ -239,9 +254,9 @@ describe("AccountModel.js", () => {
                 .once()                
                 .returns();
 
-            expect(() => 
+            await expect(
                 accountModel.firstStepToResetAccountPassword(email, token)
-            ).to.not.throw(Exception);
+            ).to.be.not.rejectedWith(Exception);
 
             accountRepositoryMock.verify();
             temporaryAccountRepositoryMock.verify();
@@ -257,15 +272,16 @@ describe("AccountModel.js", () => {
             then it must retrieve the temporary account
             and not found the temporary account
             and throw the email is not in the reset password process exception`,
-        () => {
+        async () => {
             temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
                 .returns(null);
 
-            expect(() => {
-                accountModel.secondStepToResetAccountPassword(email, password, token);
-            }).to.throw(Exception);
+            await expect(
+                accountModel.secondStepToResetAccountPassword(email, password, token)
+            ).to.be.rejectedWith(Exception);
+
             temporaryAccountRepositoryMock.verify();
         });
         
@@ -278,7 +294,7 @@ describe("AccountModel.js", () => {
             and retrieve the account            
             and update the account password
             and delete the temporary account`,
-        () => {
+        async () => {
             temporaryAccountRepositoryMock.expects("retrieveAnTemporaryAccountEntityByEmailAndToken")
                 .withArgs(email, token)
                 .once()
@@ -302,9 +318,9 @@ describe("AccountModel.js", () => {
                     getId: sinon.stub()
                 });
 
-            expect(() => {
-                accountModel.secondStepToResetAccountPassword(email, password, token);
-            }).to.not.throw(Exception);
+            await expect(
+                accountModel.secondStepToResetAccountPassword(email, password, token)
+            ).to.be.not.rejectedWith(Exception);
             
             temporaryAccountRepositoryMock.verify();
             accountRepositoryMock.verify();
@@ -320,15 +336,16 @@ describe("AccountModel.js", () => {
             and retrieve the account
             and not found the account
             and throw the password is incorrect exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns(null);
 
-            expect(() => {
-                const newPassword = faker.internet.password();
-                accountModel.changeMyPassword(email, password, newPassword);
-            }).to.throw(Exception);
+            const newPassword = faker.internet.password();
+            await expect(           
+                accountModel.changeMyPassword(email, password, newPassword)
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
         });
 
@@ -339,7 +356,7 @@ describe("AccountModel.js", () => {
             and found the account
             and encrypt the new password
             and update the account password`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns({
@@ -350,10 +367,11 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns();
 
-            expect(() => {
-                const newPassword = faker.internet.password();
-                accountModel.changeMyPassword(email, password, newPassword);
-            }).to.not.throw(Exception);
+            const newPassword = faker.internet.password();
+            await expect(
+                accountModel.changeMyPassword(email, password, newPassword)
+            ).to.be.not.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
         });
 
@@ -367,14 +385,15 @@ describe("AccountModel.js", () => {
             and retrieve the account
             and not found the account            
             and throw the email or password are incorrect exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns(null);
 
-            expect(() => {
-                accountModel.login(email, password, token);
-            }).to.throw(Exception);
+            await expect(
+                accountModel.login(email, password, token)
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
             loginAndLogoutRepositoryMock.verify();
         });
@@ -387,7 +406,7 @@ describe("AccountModel.js", () => {
             and retrieve the login
             and found the login
             and throw you are already logged in exception`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns("ACCOUNT");
@@ -397,9 +416,10 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns("LOGIN_REGISTER");
 
-            expect(() => {
-                accountModel.login(email, password, token);
-            }).to.throw(Exception);
+            await expect(
+                accountModel.login(email, password, token)
+            ).to.be.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
             loginAndLogoutRepositoryMock.verify();
         });
@@ -412,7 +432,7 @@ describe("AccountModel.js", () => {
             and retrieve the login
             and not found the login
             and create the login`,
-        () => {
+        async () => {
             accountRepositoryMock.expects("retrieveAnAccountEntityByEmailAndPassword")
                 .once()
                 .returns("ACCOUNT");
@@ -426,9 +446,10 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns();
 
-            expect(() => {
-                accountModel.login(email, password, token);
-            }).to.not.throw(Exception);
+            await expect(
+                accountModel.login(email, password, token)
+            ).to.be.not.rejectedWith(Exception);
+
             accountRepositoryMock.verify();
             loginAndLogoutRepositoryMock.verify();
         });
@@ -442,15 +463,16 @@ describe("AccountModel.js", () => {
             then it must retrieve the login register
             and not found the login register
             and throw the account is not logged exception`,
-        () => {
+        async () => {
             loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
                 .returns(null);
 
-            expect(() => {
-                accountModel.logout(email);
-            }).to.throw(Exception);            
+            await expect(
+                accountModel.logout(email)
+            ).to.be.rejectedWith(Exception);  
+
             loginAndLogoutRepositoryMock.verify();
         });
 
@@ -459,7 +481,7 @@ describe("AccountModel.js", () => {
             then it must retrieve the login register
             and found the login register
             and delete the login register`,
-        () => {
+        async () => {
             loginAndLogoutRepositoryMock.expects("retriveAnLoginAndLogoutEntityByEmail")
                 .withArgs(email)
                 .once()
@@ -470,9 +492,10 @@ describe("AccountModel.js", () => {
                 .once()
                 .returns();
 
-            expect(() => {
-                accountModel.logout(email);
-            }).to.not.throw(Exception);            
+            await expect(
+                accountModel.logout(email)
+            ).to.be.not.rejectedWith(Exception);
+
             loginAndLogoutRepositoryMock.verify();
         });
 

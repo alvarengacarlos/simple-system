@@ -13,13 +13,15 @@ class ValidationException extends Error {
 
 export default class Validation {
 
-    static createAccount(body) {
+    static createAccountValidation(payload) {
         const schema = Joi.object({
-            email: Joi.string().email().required()
+            email: Joi.string().trim().email().required()
         });
 
-        const {error} = schema.validate(body, {abortEarly: false});
+        const {value, error} = schema.validate(payload, {abortEarly: false});
         Validation.checkError(error);
+
+        return value;
     }
 
     static checkError(error) {
@@ -28,4 +30,92 @@ export default class Validation {
         }
     }
 
+    static confirmAccountCreationValidation(payload) {
+        const schema = Joi.object({
+            email: Joi.string().trim().email().required(),
+            token: Joi.string().trim().token().required
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }
+
+    static deleteMyAccountValidation(payload) {
+        const schema = Joi.object({
+            email: Joi.string().trim().email().required(),
+            password: Joi.string().trim().required(),
+            token: Joi.string().trim().token().required()
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }  
+    
+    static resetAccountPasswordValidation(payload) {
+        const schema = Joi.object({
+            email: Joi.string().trim().email().required()
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }  
+
+    static confirmResetAccountPasswordValidation(payload) {
+        const schema = Joi.object({
+            token: Joi.string().trim().token().required(),
+            email: Joi.string().trim().email().required(),
+            newPassword: Joi.string().trim().required()  
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }
+
+    static changeMyPassowrdValidation(payload) {
+        const schema = Joi.object({
+            token: Joi.string().trim().token().required(),
+            email: Joi.string().trim().email().required(),
+            oldPassword: Joi.string().trim().required(),
+            newPassword: Joi.string().trim().required()  
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }
+    
+    static loginValidation(payload) {
+        const schema = Joi.object({
+            email: Joi.string().trim().email().required(),
+            password: Joi.string().trim().required()
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }
+
+    static logoutValidation(payload) {
+        const schema = Joi.object({
+            token: Joi.string().trim().required(),
+            email: Joi.string().trim().email().required()
+        });
+
+        const {value, error} = schema.validate(payload, {abortEarly: false});
+        Validation.checkError(error);
+
+        return value;
+    }
+
+    
 }
