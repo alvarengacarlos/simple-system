@@ -53,9 +53,9 @@ export default class EmailService {
         }
         const subject = "Register your new account";        
         const body = `
-            Hello, this is your link. 
+            Hello, this is your link.
             Click or copy it to finalize your register.
-            <a href="${this._applicationDomainName}?email=${receiver}&token=${token}" target="_blank">Click Here</a>.
+            <a href="${this._applicationDomainName}view/account/confirm-account-creation-view?email=${receiver}&token=${token}" target="_blank">Click Here</a>.
 
             Not reply it.
         `;
@@ -87,7 +87,7 @@ export default class EmailService {
         const body = `
             Hello, this is your link. 
             Click or copy it to finalize your reset account password.
-            <a href="${this._applicationDomainName}?email=${receiver}&token=${token}" target="_blank">Click Here</a>.
+            <a href="${this._applicationDomainName}view/account/confirm-reset-account-password-view?email=${receiver}&token=${token}" target="_blank">Click Here</a>.
 
             Not reply it.
         `;
