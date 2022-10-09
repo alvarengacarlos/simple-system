@@ -6,7 +6,7 @@ class ValidationException extends Error {
         const messages = error.details.map((element) => element.message);
         
         super(JSON.stringify({messages: messages}));
-        this.httpStatusCode = 400;
+        this._httpStatusCode = 400;
     }
 
 }
@@ -32,8 +32,9 @@ export default class Validation {
 
     static confirmAccountCreationValidation(payload) {
         const schema = Joi.object({
-            email: Joi.string().trim().email().required(),
-            token: Joi.string().trim().token().required
+            token: Joi.string().trim().required(),
+            email: Joi.string().trim().email().required(),            
+            password: Joi.string().trim().required()
         });
 
         const {value, error} = schema.validate(payload, {abortEarly: false});
@@ -46,7 +47,7 @@ export default class Validation {
         const schema = Joi.object({
             email: Joi.string().trim().email().required(),
             password: Joi.string().trim().required(),
-            token: Joi.string().trim().token().required()
+            token: Joi.string().trim().required()
         });
 
         const {value, error} = schema.validate(payload, {abortEarly: false});
@@ -68,7 +69,7 @@ export default class Validation {
 
     static confirmResetAccountPasswordValidation(payload) {
         const schema = Joi.object({
-            token: Joi.string().trim().token().required(),
+            token: Joi.string().trim().required(),
             email: Joi.string().trim().email().required(),
             newPassword: Joi.string().trim().required()  
         });
@@ -81,7 +82,7 @@ export default class Validation {
 
     static changeMyPassowrdValidation(payload) {
         const schema = Joi.object({
-            token: Joi.string().trim().token().required(),
+            token: Joi.string().trim().required(),
             email: Joi.string().trim().email().required(),
             oldPassword: Joi.string().trim().required(),
             newPassword: Joi.string().trim().required()  

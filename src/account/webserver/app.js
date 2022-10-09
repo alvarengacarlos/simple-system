@@ -37,7 +37,7 @@ app.post("/confirm-account-creation", async (request, response, next) => {
         const result = Validation.confirmAccountCreationValidation(request?.body);
         
         const gateway = new Gateway();
-        await gateway.secondStepToCreateAnAccount(result.email, result.token);
+        await gateway.secondStepToCreateAnAccount(result.token, result.email, result.password);
         
         next();
         return response.status(200).json();
@@ -67,7 +67,7 @@ app.post("/reset-account-password", async (request, response, next) => {
         const result = Validation.resetAccountPasswordValidation(request?.body);
         
         const gateway = new Gateway();
-        await gateway.deleteMyAccount(result.email);
+        await gateway.firstStepToResetAccountPassword(result.email);
         
         next();
         return response.status(200).json();
@@ -112,10 +112,10 @@ app.post("/login", async (request, response, next) => {
         const result = Validation.loginValidation(request?.body);
         
         const gateway = new Gateway();
-        await gateway.login(result.email, result.password);
+        const token = await gateway.login(result.email, result.password);
         
         next();
-        return response.status(200).json();
+        return response.status(200).json({token: token});
 
     } catch (exception) {            
         next(exception);
