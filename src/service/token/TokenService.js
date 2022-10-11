@@ -67,8 +67,14 @@ export default class TokenService {
             const claims = await jose.jwtVerify(token, publickey);
             return claims;
         
-        } catch (error) {            
-            throw new Exception("the token is invalid", 3, 401);
+        } catch (error) {     
+            if(error?.code == "ERR_JWT_EXPIRED") {
+                throw new Exception("the token is expired", 13, 400);
+
+            } else {
+                throw new Exception("the token is invalid", 3, 401);
+            }
+                
         }        
     }
 

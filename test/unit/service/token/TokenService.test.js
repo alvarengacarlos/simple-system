@@ -42,6 +42,18 @@ describe("TokenService.js", () => {
 
     });
 
+    describe("_checkJwtToken", () => {
+
+        it("it must throw an the token is expired", async () => {
+            tokenService._expirationTime = 0;
+            const token = await tokenService.generateCreateAccountToken();
+
+            await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith(Exception);
+            await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith("the token is expired");
+        });
+
+    });
+
     describe(`generateLoginToken`, () => {
 
         it(`it must generate a login token`, async () => {
