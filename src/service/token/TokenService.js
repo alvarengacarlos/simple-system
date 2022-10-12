@@ -62,6 +62,8 @@ export default class TokenService {
 
         const claim = await this._checkJwtToken(token);        
         if (claim.payload.type != TokenService.tokenTypes.CREATE_ACCOUNT) {
+            Logger.warningLog("The token is invalid");
+
             throw new Exception("the token is invalid", 3, 401);
         }
     }
@@ -99,6 +101,8 @@ export default class TokenService {
 
         const claim = await this._checkJwtToken(token);
         if (claim.payload.type != TokenService.tokenTypes.LOGIN) {
+            Logger.warningLog("The token is invalid");
+
             throw new Exception("the token is invalid", 3, 401);
         }
     }
@@ -115,6 +119,8 @@ export default class TokenService {
 
         const claim = await this._checkJwtToken(token);
         if (claim.payload.type != TokenService.tokenTypes.RESET_PASSWORD) {
+            Logger.warningLog("The token is invalid");
+            
             throw new Exception("the token is invalid", 3, 401);
         }
     }
