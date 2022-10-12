@@ -74,9 +74,13 @@ export default class TokenService {
         
         } catch (error) {     
             if(error?.code == "ERR_JWT_EXPIRED") {
+                Logger.warningLog("The token is expired");
+
                 throw new Exception("the token is expired", 13, 400);
 
             } else {
+                Logger.warningLog("The token is invalid");
+
                 throw new Exception("the token is invalid", 3, 401);
             }
                 
