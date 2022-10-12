@@ -3,9 +3,9 @@ import Joi from "joi";
 class ValidationException extends Error {
     
     constructor(error) {
-        const messages = error.details.map((element) => element.message);
+        const message = error.details.map((element) => element.message);
         
-        super(JSON.stringify({messages: messages}));
+        super(JSON.stringify({message: message}));
         this._httpStatusCode = 400;
     }
 
