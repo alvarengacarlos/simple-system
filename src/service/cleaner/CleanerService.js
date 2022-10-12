@@ -31,10 +31,10 @@ export default class CleanerService {
         Logger.infoLog("Checking if there are TemporaryAccounts to remove");
 
         allTemporaryAccountEntities.forEach(async (temporaryAccountEntity) => {
-            Logger.infoLog(`Removing the ${temporaryAccountEntity.getEmail()} temporary account`);
-            
             const difference = this._returnDifferenceBetweenNowAndCreatedAt(temporaryAccountEntity);
-            if (difference >= this._expirationTime) {                
+            if (difference >= this._expirationTime) {            
+                Logger.infoLog(`Removing the ${temporaryAccountEntity.getEmail()} temporary account`);    
+
                 await this._temporaryAccountRepository.deleteEntityById(temporaryAccountEntity.getId());   
             }
         });                
@@ -70,10 +70,10 @@ export default class CleanerService {
         Logger.infoLog("Checking if there are LoginAndLogouts to remove");
 
         allLoginAndLogoutEntities.forEach(async (loggedAndLogoutEntity) => {
-            Logger.infoLog(`Loggin off ${loggedAndLogoutEntity.getEmail()} account`);
-
             const difference = this._returnDifferenceBetweenNowAndCreatedAt(loggedAndLogoutEntity);
             if (difference >= this._expirationTime) {
+                Logger.infoLog(`Loggin off ${loggedAndLogoutEntity.getEmail()} account`);
+
                 await this._loginAndLogoutRepository.deleteEntityById(loggedAndLogoutEntity.getId());
             }            
         });        
