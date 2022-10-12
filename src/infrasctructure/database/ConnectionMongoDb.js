@@ -14,12 +14,12 @@ export default class ConnectionMongoDb {
         try {                        
             await client.connect();
             await client.db(process.env.DB_NAME).command({ping: 1});
-            Logger.infoLog("successfully connected to the database");
+            Logger.infoLog("Successfully connected to the database");
             return client.db(process.env.DB_NAME);
 
         } catch(error) {
-            Logger.errorLog("fail to connect to mongo database", error);
-            throw new Exception("sorry, internal error", 11, 500);
+            Logger.errorLog("Fail to connect to mongo database", error);
+            throw new Exception("Sorry, internal error", 11, 500);
         }
     }
 

@@ -1,5 +1,7 @@
 import process from "process";
 
+import Logger from "../../util/Logger.js";
+
 const port = process.env.API_GATEWAY_PORT;
 
 if (port === undefined) {
@@ -7,5 +9,5 @@ if (port === undefined) {
 }
 
 export default function server (app) {
-    app.listen(port, () => console.log("Server is up in %d port", port))
+    app.listen(port, () => Logger.infoLog(`Server is up in ${port} port`));
 }
