@@ -2,6 +2,7 @@ import * as jose from "jose";
 import process from "process";
 
 import Exception from "../../../src/helper/Exception.js";
+import Logger from "../../util/Logger.js";
 
 export default class TokenService {
     
@@ -32,7 +33,9 @@ export default class TokenService {
         return Math.floor(date / 1000);
     }
 
-    async generateCreateAccountToken() {        
+    async generateCreateAccountToken() {
+        Logger.infoLog("Generating the CreateAccountToken token");
+
         const token = this._generateJwtToken(TokenService.tokenTypes.CREATE_ACCOUNT);
         return token;
     }
@@ -55,6 +58,8 @@ export default class TokenService {
     }
 
     async checkCreateAccountToken(token) {
+        Logger.infoLog("Checking the CreateAccountToken token");
+
         const claim = await this._checkJwtToken(token);        
         if (claim.payload.type != TokenService.tokenTypes.CREATE_ACCOUNT) {
             throw new Exception("the token is invalid", 3, 401);
@@ -78,24 +83,32 @@ export default class TokenService {
         }        
     }
 
-    async generateLoginToken() {    
+    async generateLoginToken() {
+        Logger.infoLog("Generating the LoginToken token");
+
         const token = await this._generateJwtToken(TokenService.tokenTypes.LOGIN);
         return token;
     }
 
     async checkLoginToken(token) {
+        Logger.infoLog("Checking the LoginToken token");
+
         const claim = await this._checkJwtToken(token);
         if (claim.payload.type != TokenService.tokenTypes.LOGIN) {
             throw new Exception("the token is invalid", 3, 401);
         }
     }
 
-    async generateResetPasswordToken() {        
+    async generateResetPasswordToken() {
+        Logger.infoLog("Generating the ResetPasswordToken token");
+        
         const token = this._generateJwtToken(TokenService.tokenTypes.RESET_PASSWORD);
         return token;
     }    
 
     async checkResetPasswordToken(token) {
+        Logger.infoLog("Checking the ResetPasswordToken token");
+
         const claim = await this._checkJwtToken(token);
         if (claim.payload.type != TokenService.tokenTypes.RESET_PASSWORD) {
             throw new Exception("the token is invalid", 3, 401);
