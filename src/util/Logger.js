@@ -1,15 +1,18 @@
 export default class Logger {
 
     static infoLog(message) {
-        console.log(`[INFO] -> ${message}`);
+        const currentDate = new Date().toLocaleString();
+        console.log(`[INFO] -> ${message} - ${currentDate}`);
     }
 
     static warningLog(message) {
-        console.warn(`[WARNING] -> ${message}`);
+        const currentDate = new Date().toLocaleString();
+        console.warn(`[WARNING] -> ${message} - ${currentDate}`);
     }
 
     static errorLog(message, error) {
-        console.error(`[ERROR] -> ${message} - "${error.message}"`);
+        const currentDate = new Date().toLocaleString();
+        console.error(`[ERROR] -> ${message} - "${error.message}" - '${currentDate}'`);
     }
     
 }
