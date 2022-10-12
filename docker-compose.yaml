@@ -1,4 +1,3 @@
-#TODO: Decidir se vai utilizar o GRPC ou se vai ser dividido com o mountpath ou ainda com o multirouter express example
 version: '3.9'
 services:
   simple-system:    
