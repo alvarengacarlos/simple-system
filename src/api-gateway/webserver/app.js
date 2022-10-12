@@ -9,10 +9,10 @@ import mountSubApps from "./mountSubApps.js";
 const app = express();
 
 export default function main() {
-    config(app);
-    beforeRouteMiddlewares(app);
-    router(app);
-    mountSubApps(app);
-    afterRouteMiddlewares(app);
-    server(app);
+	config(app);
+	beforeRouteMiddlewares(app);
+	router(app);
+	mountSubApps(app);
+	afterRouteMiddlewares(app);
+	server(app);
 }

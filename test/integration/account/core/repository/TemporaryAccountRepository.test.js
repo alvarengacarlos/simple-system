@@ -7,122 +7,122 @@ import TemporaryAccountRepository from "../../../../../src/account/core/reposito
 
 describe("TemporaryAccountRepository", () => {
 
-    function generateTemporaryAccountEntityHelper() {
-        return new TemporaryAccountEntity(
-            faker.internet.email(),
-            faker.datatype.uuid()
-        );
-    }
+	function generateTemporaryAccountEntityHelper() {
+		return new TemporaryAccountEntity(
+			faker.internet.email(),
+			faker.datatype.uuid()
+		);
+	}
 
-    async function saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccountEntity) {        
-        const connection = await temporaryAccountRepository.getConnection();
-        await connection.collection(temporaryAccountRepository.getCollectionName())
-            .insertOne(temporaryAccountEntity);
-    }
+	async function saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccountEntity) {        
+		const connection = await temporaryAccountRepository.getConnection();
+		await connection.collection(temporaryAccountRepository.getCollectionName())
+			.insertOne(temporaryAccountEntity);
+	}
 
-    async function retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(id) {
-        const connection = await temporaryAccountRepository.getConnection();
+	async function retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(id) {
+		const connection = await temporaryAccountRepository.getConnection();
         
-        const temporaryAccountEntity = await connection.collection(temporaryAccountRepository.getCollectionName())
-            .findOne({_id: id});        
+		const temporaryAccountEntity = await connection.collection(temporaryAccountRepository.getCollectionName())
+			.findOne({_id: id});        
 
-        if (temporaryAccountEntity) {
-            return new TemporaryAccountEntity(temporaryAccountEntity._email, temporaryAccountEntity._password)
-                .setId(temporaryAccountEntity._id)
-                .setCreatedAt(temporaryAccountEntity._createdAt)
-                .setUpdatedAt(temporaryAccountEntity._updatedAt);
-        }
+		if (temporaryAccountEntity) {
+			return new TemporaryAccountEntity(temporaryAccountEntity._email, temporaryAccountEntity._password)
+				.setId(temporaryAccountEntity._id)
+				.setCreatedAt(temporaryAccountEntity._createdAt)
+				.setUpdatedAt(temporaryAccountEntity._updatedAt);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    let temporaryAccountRepository;
-    before(() => {
-        temporaryAccountRepository = new TemporaryAccountRepository();
-        temporaryAccountRepository.getConnection()
-            .then((connection) => {
-                connection.dropCollection(temporaryAccountRepository.getCollectionName());
-            });        
-    });
+	let temporaryAccountRepository;
+	before(() => {
+		temporaryAccountRepository = new TemporaryAccountRepository();
+		temporaryAccountRepository.getConnection()
+			.then((connection) => {
+				connection.dropCollection(temporaryAccountRepository.getCollectionName());
+			});        
+	});
 
-    afterEach(() => {
-        temporaryAccountRepository.getConnection()
-            .then((connection) => {
-                connection.dropCollection(temporaryAccountRepository.getCollectionName());
-            });
-    });
+	afterEach(() => {
+		temporaryAccountRepository.getConnection()
+			.then((connection) => {
+				connection.dropCollection(temporaryAccountRepository.getCollectionName());
+			});
+	});
 
-    describe("retrieveAnTemporaryAccountEntityById", () => {
+	describe("retrieveAnTemporaryAccountEntityById", () => {
 
-        it("it must save one temporary account and retrieve it by id", async () => {
-            const temporaryAccount = generateTemporaryAccountEntityHelper();
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
+		it("it must save one temporary account and retrieve it by id", async () => {
+			const temporaryAccount = generateTemporaryAccountEntityHelper();
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityById(temporaryAccount.getId());
+			const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityById(temporaryAccount.getId());
 
-            expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
-        })
+			expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
+		});
 
-    });
+	});
 
-    describe("retrieveAllTemporaryAccountEntities", () => {
+	describe("retrieveAllTemporaryAccountEntities", () => {
 
-        it("it must save two temporary account and retrieve them", async () => {
-            const temporaryAccount1 = generateTemporaryAccountEntityHelper();
-            const temporaryAccount2 = generateTemporaryAccountEntityHelper();
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount1);
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount2);
+		it("it must save two temporary account and retrieve them", async () => {
+			const temporaryAccount1 = generateTemporaryAccountEntityHelper();
+			const temporaryAccount2 = generateTemporaryAccountEntityHelper();
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount1);
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount2);
 
-            const retrievedTemporaryAccounts = await temporaryAccountRepository.retrieveAllTemporaryAccountEntities();
+			const retrievedTemporaryAccounts = await temporaryAccountRepository.retrieveAllTemporaryAccountEntities();
 
-            expect(retrievedTemporaryAccounts[0]).to.eql(temporaryAccount1);
-            expect(retrievedTemporaryAccounts[1]).to.eql(temporaryAccount2);
-        });
+			expect(retrievedTemporaryAccounts[0]).to.eql(temporaryAccount1);
+			expect(retrievedTemporaryAccounts[1]).to.eql(temporaryAccount2);
+		});
 
-    })
+	});
 
-    describe("retrieveAnTemporaryAccountByEmail", () => {
+	describe("retrieveAnTemporaryAccountByEmail", () => {
         
-        it("it must save one temporary account and retrieve it by email", async () => {
-            const temporaryAccount = generateTemporaryAccountEntityHelper();
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
+		it("it must save one temporary account and retrieve it by email", async () => {
+			const temporaryAccount = generateTemporaryAccountEntityHelper();
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
+			const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
 
-            expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
-        });
+			expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
+		});
 
-    });
+	});
 
-    describe("retrieveAnTemporaryAccountByEmailAndToken", () => {
+	describe("retrieveAnTemporaryAccountByEmailAndToken", () => {
         
-        it("it must save one temporary account and retrieve it by email and token", async () => {
-            const temporaryAccount = generateTemporaryAccountEntityHelper();
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
+		it("it must save one temporary account and retrieve it by email and token", async () => {
+			const temporaryAccount = generateTemporaryAccountEntityHelper();
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(
-                temporaryAccount.getEmail(),
-                temporaryAccount.getToken()
-            );
+			const retrievedTemporaryAccount = await temporaryAccountRepository.retrieveAnTemporaryAccountEntityByEmailAndToken(
+				temporaryAccount.getEmail(),
+				temporaryAccount.getToken()
+			);
 
-            expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
-        });
+			expect(retrievedTemporaryAccount).to.eql(temporaryAccount);
+		});
 
-    })
+	});
 
-    describe("deleteAnTemporaryAccountByEmail", () => {
+	describe("deleteAnTemporaryAccountByEmail", () => {
 
-        it("it must save one temporary account and delete it by email", async () => {
-            const temporaryAccount = generateTemporaryAccountEntityHelper();
-            await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
+		it("it must save one temporary account and delete it by email", async () => {
+			const temporaryAccount = generateTemporaryAccountEntityHelper();
+			await saveOneTemporaryAccountEntityInDatabaseHelper(temporaryAccount);
 
-            await temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
+			await temporaryAccountRepository.deleteAnTemporaryAccountEntityByEmail(temporaryAccount.getEmail());
 
-            const retrievedTemporaryAccount = await retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(temporaryAccount.getId());
+			const retrievedTemporaryAccount = await retrieveOneTemporaryAccountEntityByIdInDatabaseHelper(temporaryAccount.getId());
 
-            expect(retrievedTemporaryAccount).to.eql(null);
-        });
+			expect(retrievedTemporaryAccount).to.eql(null);
+		});
 
-    });
+	});
 
 });
