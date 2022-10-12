@@ -12,27 +12,27 @@ import Exception from "../../../../src/helper/Exception.js";
 
 describe("EmailService", () => {
 
-    let receiver, token;
-    before(() => {
-        receiver = process.env.TEST_RECEIVER_EMAIL;
-        token = faker.datatype.uuid();
-    })
+	let receiver, token;
+	before(() => {
+		receiver = process.env.TEST_RECEIVER_EMAIL;
+		token = faker.datatype.uuid();
+	});
 
-    let emailService;
-    beforeEach(() => {
-        emailService = new EmailService();
-    });
+	let emailService;
+	beforeEach(() => {
+		emailService = new EmailService();
+	});
 
-    describe("sendCreateAccountMail", () => {
+	describe("sendCreateAccountMail", () => {
 
-        it("it must send an email with successfully", async () => {
-            await expect(emailService.sendCreateAccountMail(receiver, token)).to.be.not.rejectedWith(Exception);
-        }).timeout(TIMEOUT);
+		it("it must send an email with successfully", async () => {
+			await expect(emailService.sendCreateAccountMail(receiver, token)).to.be.not.rejectedWith(Exception);
+		}).timeout(TIMEOUT);
 
-        it("it must send an email with successfully", async () => {
-            await expect(emailService.sendResetPasswordMail(receiver, token)).to.be.not.rejectedWith(Exception);
-        }).timeout(TIMEOUT);
+		it("it must send an email with successfully", async () => {
+			await expect(emailService.sendResetPasswordMail(receiver, token)).to.be.not.rejectedWith(Exception);
+		}).timeout(TIMEOUT);
 
-    });
+	});
 
 });

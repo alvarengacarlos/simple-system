@@ -3,27 +3,27 @@ import express from "express";
 import path from "path";
 
 export default function config(app) {
-    app.use(express.json());
-    defineStaticFiles(app);
-    defineEnviromentType(app);
+	app.use(express.json());
+	defineStaticFiles(app);
+	defineEnviromentType(app);
 }
 
 function defineStaticFiles(app) {
-    if (!process.env.APPLICATION_ROOT_DIR) {
-        throw new Error("The APPLICATION_ROOT_DIR environment variable is not defined");
-    }
+	if (!process.env.APPLICATION_ROOT_DIR) {
+		throw new Error("The APPLICATION_ROOT_DIR environment variable is not defined");
+	}
 
-    const p = path.resolve(process.env.APPLICATION_ROOT_DIR, "src", "public");
-    app.use(express.static(p));
+	const p = path.resolve(process.env.APPLICATION_ROOT_DIR, "src", "public");
+	app.use(express.static(p));
 }
 
 function defineEnviromentType(app) {
-    const isDebug = process.env.API_GATEWAY_DEBUG;
+	const isDebug = process.env.API_GATEWAY_DEBUG;
 
-    if (isDebug == "true") {        
-        app.set("env", "development");        
+	if (isDebug == "true") {        
+		app.set("env", "development");        
 
-    } else {
-        app.set("env", "production");
-    }
+	} else {
+		app.set("env", "production");
+	}
 }

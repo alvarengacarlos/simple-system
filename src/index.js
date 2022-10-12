@@ -1,3 +1,3 @@
-import initBootStrap from "./bootstrap.js"
+import initBootStrap from "./bootstrap.js";
 
 initBootStrap();

@@ -1,4 +1,4 @@
-import { it, describe, beforeEach, before } from "mocha";
+import { it, describe, beforeEach } from "mocha";
 import { expect } from "chai";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -11,99 +11,99 @@ import Exception from "../../../../src/helper/Exception.js";
 
 describe("TokenService.js", () => {
 
-    let tokenService = null
-    beforeEach(() => {  
-        tokenService = new TokenService();
-    })
+	let tokenService = null;
+	beforeEach(() => {  
+		tokenService = new TokenService();
+	});
 
-    describe("generateCreateAccountToken", () => {
+	describe("generateCreateAccountToken", () => {
 
-        it(`it must generate a create account token`, async () => {
-            const token = await tokenService.generateCreateAccountToken();
+		it("it must generate a create account token", async () => {
+			const token = await tokenService.generateCreateAccountToken();
 
-            expect(token.split(".")).to.length(3);
-        });
+			expect(token.split(".")).to.length(3);
+		});
 
-    });
+	});
 
-    describe(`checkCreateAccountToken`, () => {
+	describe("checkCreateAccountToken", () => {
 
-        it(`it must be success on validate token`, async () => {
-            const token = await tokenService.generateCreateAccountToken();
+		it("it must be success on validate token", async () => {
+			const token = await tokenService.generateCreateAccountToken();
             
-            await expect(tokenService.checkCreateAccountToken(token)).to.be.not.rejectedWith(Exception);
-        });
+			await expect(tokenService.checkCreateAccountToken(token)).to.be.not.rejectedWith(Exception);
+		});
 
-        it(`it must throw the invalid token exception`, async () => {
-            const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
+		it("it must throw the invalid token exception", async () => {
+			const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
             
-            await expect(tokenService.checkCreateAccountToken(token)).to.be.rejectedWith(Exception);
-        });       
+			await expect(tokenService.checkCreateAccountToken(token)).to.be.rejectedWith(Exception);
+		});       
 
-    });
+	});
 
-    describe("_checkJwtToken", () => {
+	describe("_checkJwtToken", () => {
 
-        it("it must throw an the token is expired", async () => {
-            tokenService._expirationTime = 0;
-            const token = await tokenService.generateCreateAccountToken();
+		it("it must throw an the token is expired", async () => {
+			tokenService._expirationTime = 0;
+			const token = await tokenService.generateCreateAccountToken();
 
-            await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith(Exception);
-            await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith("the token is expired");
-        });
+			await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith(Exception);
+			await expect(tokenService._checkJwtToken(token)).to.be.rejectedWith("the token is expired");
+		});
 
-    });
+	});
 
-    describe(`generateLoginToken`, () => {
+	describe("generateLoginToken", () => {
 
-        it(`it must generate a login token`, async () => {
-            const token = await tokenService.generateLoginToken();
+		it("it must generate a login token", async () => {
+			const token = await tokenService.generateLoginToken();
 
-            expect(token.split(".")).to.length(3);
-        });
+			expect(token.split(".")).to.length(3);
+		});
 
-    });
+	});
 
-    describe(`checkLoginToken`, () => {
+	describe("checkLoginToken", () => {
 
-        it(`it must be success on validate token`, async () => {
-            const token = await tokenService.generateLoginToken();
+		it("it must be success on validate token", async () => {
+			const token = await tokenService.generateLoginToken();
 
-            await expect(tokenService.checkLoginToken(token)).to.be.not.rejectedWith(Exception);
-        });
+			await expect(tokenService.checkLoginToken(token)).to.be.not.rejectedWith(Exception);
+		});
 
-        it(`it must throw the invalid token exception`, async () => {
-            const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
+		it("it must throw the invalid token exception", async () => {
+			const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
             
-            await expect(tokenService.checkLoginToken(token)).to.be.rejectedWith(Exception);
-        });       
+			await expect(tokenService.checkLoginToken(token)).to.be.rejectedWith(Exception);
+		});       
 
-    });
+	});
 
-    describe(`generateResetPasswordToken`, () => {
+	describe("generateResetPasswordToken", () => {
 
-        it(`it must generate a reset password token`, async () => {
-            const token = await tokenService.generateResetPasswordToken();
+		it("it must generate a reset password token", async () => {
+			const token = await tokenService.generateResetPasswordToken();
 
-            expect(token.split(".")).to.length(3);
-        });
+			expect(token.split(".")).to.length(3);
+		});
 
-    });
+	});
 
-    describe(`checkResetPasswordToken`, () => {
+	describe("checkResetPasswordToken", () => {
 
-        it(`it must be success on validate token`, async () => {
-            const token = await tokenService.generateResetPasswordToken();
+		it("it must be success on validate token", async () => {
+			const token = await tokenService.generateResetPasswordToken();
 
-            await expect(tokenService.checkResetPasswordToken(token)).to.be.not.rejectedWith(Exception);
-        });
+			await expect(tokenService.checkResetPasswordToken(token)).to.be.not.rejectedWith(Exception);
+		});
 
-        it(`it must throw the invalid token exception`, async () => {
-            const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
+		it("it must throw the invalid token exception", async () => {
+			const token = `${faker.datatype.uuid()}.${faker.datatype.uuid()}.${faker.datatype.uuid()}`;
             
-            await expect(tokenService.checkResetPasswordToken(token)).to.be.rejectedWith(Exception);
-        });       
+			await expect(tokenService.checkResetPasswordToken(token)).to.be.rejectedWith(Exception);
+		});       
 
-    });
+	});
 
 });
