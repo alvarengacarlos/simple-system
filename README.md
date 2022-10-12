@@ -24,5 +24,8 @@ This sub-app is responsible for managing account operations.
 
  - Finally, open your browser and access http://localhost:3000 or your environment APPLICATION_DOMAIN_NAME address.
 
+# Documentation
+ - [Exception](./docs/exception.md)
+
 # License
 This application is under [MIT LICENSE](./LICENSE).
