@@ -48,6 +48,8 @@ export default class EmailService {
     }
 
     async sendCreateAccountMail(receiver, token) {
+        Logger.infoLog(`Sending CreateAccountEmail to ${receiver}`);
+
         if (!receiver || !token) {
             throw new Error("the receiver or token is not defined");
         }
@@ -80,6 +82,8 @@ export default class EmailService {
     }
 
     async sendResetPasswordMail(receiver, token) {
+        Logger.infoLog(`Sending ResetPasswordEmail to ${receiver}`);
+
         if (!receiver || !token) {
             throw new Error("the receiver or token is not defined");
         }
