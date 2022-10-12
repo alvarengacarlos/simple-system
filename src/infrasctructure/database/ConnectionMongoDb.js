@@ -6,7 +6,7 @@ import Exception from "../../helper/Exception.js";
 
 export default class ConnectionMongoDb {
 
-    static _uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_USER_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/?maxPoolSize=1&w=majority`;
+    static _uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_USER_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_NAME}?authSource=admin&maxPoolSize=1&w=majority`;
     static _connection = null;
     
     static async _connect() {
