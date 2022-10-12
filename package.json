@@ -1,7 +1,7 @@
 {
-  "name": "api-gateway",
+  "name": "simple-system",
   "version": "1.0.0",
-  "description": "Api gateway",
+  "description": "simple system",
   "main": "./index.js",
   "type": "module",
   "scripts": {
@@ -15,7 +15,8 @@
   },
   "keywords": [
     "api",
-    "gateway"
+    "api gateway",
+    "rest"
   ],
   "author": "Carlos Henrique Alvarenga Dos Santos",
   "license": "MIT",
