@@ -1,5 +1,6 @@
 import TemporaryAccountRepository from "../../account/core/repository/TemporaryAccountRepository.js";
 import LoginAndLogoutRepository from "../../account/core/repository/LoginAndLogoutRepository.js";
+import Logger from "../../util/Logger.js";
 
 export default class CleanerService {
 
@@ -12,6 +13,8 @@ export default class CleanerService {
     }
 
     initCleanerForTemporaryAccount() {
+        Logger.infoLog("Starting CleanerForTemporaryAccount Service");
+
         setInterval(async () => {
             const allTemporaryAccountEntities = await this._getAllTemporaryAccountEntities();
             await this._removeTemporaryAccountEntites(allTemporaryAccountEntities);
@@ -25,7 +28,11 @@ export default class CleanerService {
     }
 
     async _removeTemporaryAccountEntites(allTemporaryAccountEntities) {
+        Logger.infoLog("Checking if there are TemporaryAccounts to remove");
+
         allTemporaryAccountEntities.forEach(async (temporaryAccountEntity) => {
+            Logger.infoLog(`Removing the ${temporaryAccountEntity.getEmail()} temporary account`);
+            
             const difference = this._returnDifferenceBetweenNowAndCreatedAt(temporaryAccountEntity);
             if (difference >= this._expirationTime) {                
                 await this._temporaryAccountRepository.deleteEntityById(temporaryAccountEntity.getId());   
@@ -45,6 +52,8 @@ export default class CleanerService {
     }
 
     initCleanerForLoginAndLogout() {
+        Logger.infoLog("Starting CleanerForLoginAndLogoutAccount Service");
+
         setInterval(async () => {
             const allLoginAndLogoutEntities = await this._getAllLoginAndLogoutEntities();
             await this._removeLoginAndLogoutEntities(allLoginAndLogoutEntities);
@@ -58,7 +67,11 @@ export default class CleanerService {
     }
 
     async _removeLoginAndLogoutEntities(allLoginAndLogoutEntities) {
+        Logger.infoLog("Checking if there are LoginAndLogouts to remove");
+
         allLoginAndLogoutEntities.forEach(async (loggedAndLogoutEntity) => {
+            Logger.infoLog(`Loggin off ${loggedAndLogoutEntity.getEmail()} account`);
+
             const difference = this._returnDifferenceBetweenNowAndCreatedAt(loggedAndLogoutEntity);
             if (difference >= this._expirationTime) {
                 await this._loginAndLogoutRepository.deleteEntityById(loggedAndLogoutEntity.getId());
