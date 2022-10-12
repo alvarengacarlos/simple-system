@@ -1,0 +1,47 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    background-color: white;
+    color: black;
+    font-size: 14pt;
+    font-family: "Times New Roman"
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.page-title {
+    font-size: 20pt;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.form {
+    display: flex;    
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.input-password {  
+    border-radius: 3px;
+    border-width: 1.2px;    
+    border-style: solid;
+    border-color: black;
+    width: 200px;
+    height: 22px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.submit-button {
+    width: 100px;
+    border-radius: 3px;
+    border-width: 1.2px;    
+    border-style: solid;
+    border-color: black;
+    margin-left: 3px;
+}
+
