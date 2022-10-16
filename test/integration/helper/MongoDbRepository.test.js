@@ -97,8 +97,6 @@ describe("MongoDbRepository", () => {
 			const entity = generateMyEntityHelper();
 			await saveEntityInDatabaseHelper(entity);
 
-			entity.setUpdatedAt(new Date());
-
 			await repository.updateEntityById(entity.getId(), entity);
 
 			const retrievedEntity = await retrieveOneEntityByIdInDatabaseHelper(entity.getId());

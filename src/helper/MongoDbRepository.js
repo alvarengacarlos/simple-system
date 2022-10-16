@@ -32,6 +32,8 @@ export default class MongoDbRepository {
 	async updateEntityById(id, entity) {
 		const connection = await ConnectionMongoDb.getConnection();
 
+		entity.setUpdatedAt(new Date());
+
 		await connection.collection(this._collectionName).updateOne({ _id: id }, { $set: entity});
 	}
 
